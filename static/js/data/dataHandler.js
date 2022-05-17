@@ -23,7 +23,20 @@ export let dataHandler = {
     createNewCard: async function (cardTitle, boardId) {
         return await apiPost(`/api/boards/${boardId}/`, cardTitle);
     },
+    deleteCard: async function (cardId) {
+        return await apiDelete(`/api/cards/${cardId}`);
+    },
+    deleteBoard: async function (boardId) {
+        return await apiDelete(`/api/boards/${boardId}`);
+    },
+    updateCard: async function (cardId, cardData) {
+        return await apiPut(`/api/cards/${cardId}`, cardData)
+    },
+    updateBoard: async function (boardId, boardData) {
+        return await apiPut(`/api/cards/${boardId}`, boardData)
+    }
 };
+
 
 async function apiGet(url) {
     let response = await fetch(url, {
@@ -54,9 +67,11 @@ async function apiDelete(url) {
     }
 }
 
-async function apiPut(url) {
+async function apiPut(url, payload) {
     let response = await fetch(url, {
         method: "PUT",
+        body: payload,
+        headers: {'Content-Type': 'application/json'}
     });
     if (response.ok) {
         return await response.json();
@@ -66,6 +81,7 @@ async function apiPut(url) {
 async function apiPatch(url) {
     let response = await fetch(url, {
         method: "PATCH",
+
     });
     if (response.ok) {
         return await response.json();
