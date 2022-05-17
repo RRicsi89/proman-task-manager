@@ -22,8 +22,32 @@ export function htmlFactory(template) {
 
 function boardBuilder(board) {
     return `<div class="board-container">
-                <div class="board" data-board-id=${board.id}>${board.title}</div>
-                <button class="toggle-board-button" data-board-id="${board.id}">Show Cards</button>
+                <div class="board" data-board-id=${board.id}>
+                    <section class="board">
+                        <div class="board-header"><span class="board-title">Board 1</span>
+                            <button class="board-add">Add Card</button>
+                            <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                        <div class="board-columns">
+                            <div class="board-column">
+                                <div class="board-column-title">New</div>
+                                <div class="board-column-content"></div>
+                            </div>
+                            <div class="board-column">
+                                <div class="board-column-title">In Progress</div>
+                                <div class="board-column-content"></div>
+                            </div>
+                            <div class="board-column">
+                                <div class="board-column-title">Testing</div>
+                                <div class="board-column-content"></div>
+                            </div>
+                            <div class="board-column">
+                                <div class="board-column-title">Done</div>
+                                <div class="board-column-content"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>`;
 }
 
