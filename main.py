@@ -6,7 +6,8 @@ import queries
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
-load_dotenv("/home/tga/Codecool/Web/Week_Pair_5/proman-1-python-thgabi1/.env.template")
+load_dotenv("./.env")
+
 
 @app.route("/")
 def index():
