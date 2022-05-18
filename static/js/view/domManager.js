@@ -1,3 +1,5 @@
+import {dataHandler} from "../data/dataHandler.js";
+
 export let domManager = {
     addChild(parentIdentifier, childContent) {
         const parent = document.querySelector(parentIdentifier);
@@ -42,5 +44,32 @@ export let domManager = {
         } else {
             console.error("could not find such html element: " + `#bc-${boardId}`);
         }
+    },
+    renameBoard(){
+        let titles = document.querySelectorAll('.board-title');
+        titles.forEach(title => {
+            title.addEventListener('dblclick', function (e) {
+                const boardId = e.target.dataset.id;
+                let boardName = e.currentTarget.textContent;
+                let input = document.createElement('input');
+                let saveButton = document.createElement('button');
+                saveButton.textContent = "Save";
+                saveButton.dataset.id = boardId
+                input.value = boardName;
+                input.type = 'text';
+                saveButton.addEventListener('click', function (e) {
+                    let boardId = this.dataset.id;
+                    let boardName = input.value;
+                    title.innerHTML = boardName;
+                    dataHandler.updateBoard(boardId, boardName)
+                });
+                title.innerHTML = "";
+                title.appendChild(input);
+                title.appendChild(saveButton);
+                input.focus();
+            })
+
+        }
+        )
     }
 };

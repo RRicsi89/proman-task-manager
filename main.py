@@ -38,6 +38,14 @@ def get_cards_for_board(board_id: int):
     return queries.get_cards_for_board(board_id)
 
 
+@app.route("/api/boards/<int:board_id>/", methods=['GET', 'POST', 'PUT'])
+@json_response
+def rename_board(board_id: int):
+    if request.method == 'PUT':
+        title = request.get_json()
+        return queries.rename_board(board_id, title)
+
+
 def main():
     app.run(
     port=8000,

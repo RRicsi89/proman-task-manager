@@ -49,9 +49,22 @@ def get_cards_for_board(board_id):
     return matching_cards
 
 
+
 def save_new_board(board_title):
     data_manager.execute_update(
     """
     INSERT INTO boards (title)
     VALUES (%(board_title)s);
     """, {"board_title": board_title})
+
+def rename_board(board_id, board_title):
+    title = data_manager.execute_update(
+        """
+        UPDATE boards
+        SET title = %(board_title)s
+        WHERE id = %(board_id)s
+        ;
+        """
+        , {"board_title": board_title, "board_id": board_id})
+
+    return title
