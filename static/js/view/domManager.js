@@ -40,5 +40,25 @@ export let domManager = {
         } else {
             console.error("could not find such html element: " + `#bc-${boardId}`);
         }
+    },
+    renameBoard(){
+        let titles = document.querySelectorAll('.board-title');
+        titles.forEach(title => {
+            title.addEventListener('dblclick', function (e){
+            let boardName = e.currentTarget.textContent;
+            let input = document.createElement('input');
+            let saveButton = document.createElement('button');
+            saveButton.textContent = "Save";
+            input.value = boardName;
+            input.type = 'text';
+            saveButton.addEventListener('click', function (e){
+                let boardName = input.value;
+                title.innerHTML = boardName;
+            });
+            title.innerHTML = "";
+            title.appendChild(input);
+            title.appendChild(saveButton);
+            input.focus();
+        })})
     }
 };
