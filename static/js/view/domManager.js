@@ -72,9 +72,34 @@ export let domManager = {
         }
         )
     },
+    toggleButton(boardId, style){
+    const toggleButtons = document.querySelectorAll('.board-toggle');
+    const newColumnButtonIndex = 2;
+    for (let button of toggleButtons) {
+        if (button.dataset.boardId === boardId){
+            let newColumnButton = document.createElement('button');
+            newColumnButton.textContent = 'Add new column';
+            let currentHeader = button.parentNode;
+            if (style === 'none'){
+                currentHeader.insertBefore(newColumnButton, button);
+            } else {
+                currentHeader.children[newColumnButtonIndex].remove();
+            }
+        }
+    }
+    },
+    addNewColumn(boardId){
+        console.log(boardId);
+    },
+    dynamicColumns(boardId, style){
+        domManager.toggleButton(boardId, style);
+        domManager.addNewColumn(boardId);
+    },
+
+
     renameColumns(){
         const board = document.querySelectorAll('#board-2');
-        console.log(board);
+        // console.log(board);
         let columnTitles = document.querySelectorAll('.board-column-title');
         columnTitles.forEach(title => {
             title.addEventListener('dblclick', function (e){
