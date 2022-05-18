@@ -122,6 +122,13 @@ section.board{
     right: 4px;
     font-size: 12px;
     cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.card-remove:first-child {
+    margin-top: 3px;
+    margin-bottom: auto;
 }
 
 .card-title{
