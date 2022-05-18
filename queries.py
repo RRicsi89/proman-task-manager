@@ -50,7 +50,7 @@ def get_cards_for_board(board_id):
 
 
 def rename_board(board_id, board_title):
-    title = data_manager.execute_select(
+    title = data_manager.execute_update(
         """
         UPDATE boards
         SET title = %(board_title)s
