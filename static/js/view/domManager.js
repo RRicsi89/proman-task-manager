@@ -68,7 +68,6 @@ export let domManager = {
                 title.appendChild(saveButton);
                 input.focus();
             })
-
         }
         )
     }

@@ -23,12 +23,33 @@ async function getBoardName() {
         const content = boardBuilder(lastBoard);
         await domManager.addChild("#root", content);
         domManager.addBoardColumns(lastBoard.id);
-        cardsManager.loadCards(lastBoard.id);
+        await cardsManager.loadCards(lastBoard.id);
         domManager.addEventListener(
             `.toggle-board-button[data-board-id="${lastBoard.id}"]`,
             "click",
             showHideButtonHandler
         );
+        const newBoardTitle = document.querySelector(`.board-title[data-id="${lastBoard.id}"]`)
+        newBoardTitle.addEventListener('dblclick', function (e) {
+            const boardId = e.target.dataset.id;
+            let boardName = e.currentTarget.textContent;
+            let input = document.createElement('input');
+            let saveButton = document.createElement('button');
+            saveButton.textContent = "Save";
+            saveButton.dataset.id = boardId
+            input.value = boardName;
+            input.type = 'text';
+            saveButton.addEventListener('click', function (e) {
+                let boardId = this.dataset.id;
+                let boardName = input.value;
+                newBoardTitle.innerHTML = boardName;
+                dataHandler.updateBoard(boardId, boardName)
+            });
+            newBoardTitle.innerHTML = "";
+            newBoardTitle.appendChild(input);
+            newBoardTitle.appendChild(saveButton);
+            newBoardTitle.focus();
+        })
     });
 
     return boardTitle
@@ -62,4 +83,3 @@ function createModal() {
     var modal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
     modal.show();
 }
-
