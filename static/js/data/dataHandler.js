@@ -33,7 +33,7 @@ export let dataHandler = {
         return await apiPut(`/api/cards/${cardId}`, cardData)
     },
     updateBoard: async function (boardId, boardData) {
-        return await apiPut(`/api/cards/${boardId}`, boardData)
+        return await apiPut(`/api/boards/${boardId}`, boardData)
     }
 };
 
@@ -70,7 +70,7 @@ async function apiDelete(url) {
 async function apiPut(url, payload) {
     let response = await fetch(url, {
         method: "PUT",
-        body: payload,
+        body: JSON.stringify(payload),
         headers: {'Content-Type': 'application/json'}
     });
     if (response.ok) {
