@@ -32,7 +32,7 @@ button{
     padding: 4px 10px;
 }
 
-.board-container{
+.board-container {
     max-width: 960px;
     margin: 0 auto;
 }
@@ -64,12 +64,13 @@ section.board{
     margin: 13px;
 }
 
-.board-columns{
+[class^="board-columns-"]{
     display: flex;
     flex-wrap: nowrap;
+    display: none;
 }
 
-.board-column{
+.board-column {
     padding: 10px;
     flex: 1;
 }
@@ -133,4 +134,10 @@ section.board{
 
 .card-title{
     padding-right: 16px;
+}
+
+.button-container-center {
+    max-width: 960px;
+    margin: 0 auto;
+    padding-left: 40px;
 }

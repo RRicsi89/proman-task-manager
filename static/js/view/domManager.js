@@ -19,24 +19,26 @@ export let domManager = {
     },
     addBoardColumns(boardId) {
         const parent = document.querySelector(`#bc-${boardId}`);
-        const content = `<div class="board-columns">
-                            <div class="board-column">
-                                <div class="board-column-title">New</div>
-                                <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">In Progress</div>
-                                <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">Testing</div>
-                                <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">Done</div>
-                                <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
-                            </div>
-                        </div>`
+        const content = `
+            <div class="board-columns-${boardId}" style="display: none">
+                <div class="board-column">
+                    <div class="board-column-title">New</div>
+                    <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">In Progress</div>
+                    <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Testing</div>
+                    <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Done</div>
+                    <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
+                </div>
+            </div>
+        `
         if (parent) {
             parent.insertAdjacentHTML("beforeend", content);
         } else {
