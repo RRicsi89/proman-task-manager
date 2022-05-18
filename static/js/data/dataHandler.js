@@ -70,7 +70,7 @@ async function apiDelete(url) {
 async function apiPut(url, payload) {
     let response = await fetch(url, {
         method: "PUT",
-        body: payload,
+        body: JSON.stringify(payload),
         headers: {'Content-Type': 'application/json'}
     });
     if (response.ok) {
