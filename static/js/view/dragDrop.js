@@ -1,3 +1,5 @@
+import {dataHandler} from "../data/dataHandler.js";
+
 export function initDragAndDrop(card) {
         initElements(card);
         initDragEvents();
@@ -67,14 +69,16 @@ function handleDragLeave(e) {
     // console.log("Drag leave of ", e.currentTarget);
 }
 
-function handleDrop(e) {
+async function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
     const dragged = draggable.dragged;
-    console.log(dropzone);
-    console.log(dragged);
-    dropzone.children[1].insertAdjacentElement("beforeend", dragged);
-    // if (dom.hasClass(dropzone, `.board-column`)) {
-    //     dropzone.children[1].insertAdjacentElement("beforeend", dragged);
-    // }
+    if (dropzone.dataset.boardId === dragged.dataset.boardId) {
+        dropzone.children[1].insertAdjacentElement("beforeend", dragged);
+    };
+    const cardId = e.dataTransfer.getData("text/plain");
+    const status = dropzone.dataset.status;
+    const boardId = dragged.dataset.boardId;
+    const cardsCount = await dataHandler.getCardNumber(boardId, status);
+    await dataHandler.updateCard(cardId, {"status_id": status, "card_order": cardsCount[0]["count"]})
 }
