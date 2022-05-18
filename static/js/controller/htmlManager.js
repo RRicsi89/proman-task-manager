@@ -9,7 +9,7 @@ export let addNewBoard = function() {
 }
 
 async function getBoardName() {
-    createModal();
+    createModal("board");
     const boardTitleField = document.querySelector("#board-name");
     let boardTitle = new String();
     boardTitleField.addEventListener("change", function() {
@@ -56,18 +56,18 @@ async function getBoardName() {
 }
 
 
-function createModal() {
+function createModal(title) {
     const modalContainer = document.createElement("div");
     modalContainer.innerHTML = `
         <div class="modal" tabindex="-1" id="new-board-modal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Create new board</h5>
+                <h5 class="modal-title">Create new ${title}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                    <label for="board-name">Board name</label>
+                    <label for="board-name">${title.charAt(0).toUpperCase() + title.slice(1)} name</label>
                     <input type="text" id="board-name" name="board-name" required>
               </div>
               <div class="modal-footer">
