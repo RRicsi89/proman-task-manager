@@ -43,6 +43,7 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
+        ORDER BY status_id, card_order
         ;
         """
         , {"board_id": board_id})
