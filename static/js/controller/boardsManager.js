@@ -18,6 +18,7 @@ export let boardsManager = {
             );
             dragAndDrop.initDragAndDrop(board.id);
         }
+        domManager.renameBoard();
     },
 };
 
