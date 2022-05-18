@@ -33,7 +33,7 @@ export let dataHandler = {
         return await apiPut(`/api/cards/${cardId}`, cardData)
     },
     updateBoard: async function (boardId, boardData) {
-        return await apiPut(`/api/cards/${boardId}`, boardData)
+        return await apiPut(`/api/boards/${boardId}`, boardData)
     }
 };
 
