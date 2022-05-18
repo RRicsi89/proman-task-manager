@@ -54,11 +54,15 @@ export let domManager = {
             saveButton.addEventListener('click', function (e){
                 let boardName = input.value;
                 title.innerHTML = boardName;
+                return title.innerHTML;
             });
             title.innerHTML = "";
             title.appendChild(input);
             title.appendChild(saveButton);
             input.focus();
-        })})
+            }
+            )
+        }
+        )
     }
 };
