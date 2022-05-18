@@ -23,7 +23,7 @@ export let boardsManager = {
     },
 };
 
-function showHideButtonHandler(clickEvent) {
+export function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.parentElement.dataset.boardId;
     const boardBody = document.querySelector(`.board-columns-${boardId}`);
     if (boardBody.style.display === "none"){

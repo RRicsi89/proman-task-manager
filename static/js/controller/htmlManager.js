@@ -1,5 +1,8 @@
 import {domManager} from "../view/domManager.js";
 import {dataHandler} from "../data/dataHandler.js";
+import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
+import {cardsManager} from "./cardsManager.js";
+import {showHideButtonHandler} from "./boardsManager.js";
 
 export let addNewBoard = function() {
     domManager.addEventListener(".button-container-center > button", "click", getBoardName);
