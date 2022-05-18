@@ -11,7 +11,7 @@ export let boardsManager = {
             const content = boardBuilder(board);
             domManager.addChild("#root", content);
             domManager.addEventListener(
-                `.toggle-board-button[data-board-id="${board.id}"]`,
+                `.toggle-btn-${board.id}`,
                 "click",
                 showHideButtonHandler
             );
@@ -20,6 +20,16 @@ export let boardsManager = {
 };
 
 function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.dataset.boardId;
-    cardsManager.loadCards(boardId);
+    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    const boardBody = document.querySelector(`#bc-${boardId}`);
+    if (boardBody.children.length > 1){
+        boardBody.children[1].remove();
+        document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.remove("fas", "fa-chevron-up");
+        document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.add("fas", "fa-chevron-down");
+    } else {
+        domManager.addBoardColumns(boardId);
+        document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.remove("fas", "fa-chevron-down");
+        document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.add("fas", "fa-chevron-up");
+        cardsManager.loadCards(boardId);
+    }
 }

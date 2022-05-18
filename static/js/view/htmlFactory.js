@@ -26,25 +26,7 @@ function boardBuilder(board) {
                     <section class="board">
                         <div class="board-header"><span class="board-title">${board.title}</span>
                             <button class="board-add">Add Card</button>
-                            <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                        <div class="board-columns">
-                            <div class="board-column">
-                                <div class="board-column-title">New</div>
-                                <div class="board-column-content"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">In Progress</div>
-                                <div class="board-column-content"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">Testing</div>
-                                <div class="board-column-content"></div>
-                            </div>
-                            <div class="board-column">
-                                <div class="board-column-title">Done</div>
-                                <div class="board-column-content"></div>
-                            </div>
+                            <button class="board-toggle toggle-btn-${board.id}" data-board-id="${board.id}"><i class="fas fa-chevron-down"></i></button>
                         </div>
                     </section>
                 </div>
@@ -54,7 +36,7 @@ function boardBuilder(board) {
 function cardBuilder(card) {
     return `
         <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
-        <div class="card" data-card-id="${card.id}">${card.title}</div>
+        <div class="card card-id-${card.id}" data-card-id="${card.id}">${card.title}</div>
     `;
 }
 
