@@ -35,7 +35,10 @@ function boardBuilder(board) {
 
 function cardBuilder(card) {
     return `
-        <div class="card card-id-${card.id} card-board-${card["board_id"]}" data-card-id="${card.id}" data-board-id="${card['board_id']}">${card.title}
+        <div class="card card-id-${card.id} card-board-${card["board_id"]}" 
+                    data-card-id="${card.id}" 
+                    data-board-id="${card['board_id']}" 
+                    data-status="${card['status_id']}">${card.title}
             <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
         </div>
         
