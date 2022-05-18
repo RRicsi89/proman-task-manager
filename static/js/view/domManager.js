@@ -71,5 +71,16 @@ export let domManager = {
 
         }
         )
+    },
+    renameColumns(){
+        const board = document.querySelectorAll('#board-2');
+        console.log(board);
+        let columnTitles = document.querySelectorAll('.board-column-title');
+        columnTitles.forEach(title => {
+            title.addEventListener('dblclick', function (e){
+                const boardId = e.target.dataset.id;
+                console.log(e.currentTarget.textContent);
+            })
+        })
     }
 };
