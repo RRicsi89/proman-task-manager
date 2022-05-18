@@ -17,13 +17,15 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/api/boards")
+@app.route("/api/boards", methods=["GET", "POST"])
 @json_response
 def get_boards():
-    """
-    All the boards
-    """
-    return queries.get_boards()
+    if request.method == "GET":
+        return queries.get_boards()
+    elif request.method == "POST":
+        board_title = request.get_json()
+        print(board_title)
+        return queries.save_new_board(board_title)
 
 
 @app.route("/api/boards/<int:board_id>/cards/")

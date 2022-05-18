@@ -50,7 +50,7 @@ async function apiGet(url) {
 async function apiPost(url, payload) {
     let response = await fetch(url, {
         method: "POST",
-        body: payload,
+        body: JSON.stringify(payload),
         headers: {'Content-Type': 'application/json'}
     });
     if (response.ok) {

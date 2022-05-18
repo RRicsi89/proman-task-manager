@@ -17,7 +17,7 @@ export let domManager = {
     },
     addBoardColumns(boardId) {
         const parent = document.querySelector(`#bc-${boardId}`);
-        const content = `<div class="board-columns">
+        const content = `<div class="board-columns-${boardId}" style="display: none">
                             <div class="board-column">
                                 <div class="board-column-title">New</div>
                                 <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
