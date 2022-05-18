@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {initDragAndDrop} from "../view/dragDrop.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -29,6 +30,7 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            initDragAndDrop(card);
         }
     },
 };

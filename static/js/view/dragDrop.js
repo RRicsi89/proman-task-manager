@@ -1,9 +1,8 @@
-export let dragAndDrop = {
-    initDragAndDrop(boardId) {
-        initElements(boardId);
-        initDragEvents(boardId);
+export function initDragAndDrop(card) {
+        initElements(card);
+        initDragEvents();
     }
-}
+
 
 const dom = {
     hasClass: function(elem, cls) {
@@ -12,25 +11,21 @@ const dom = {
 }
 
 const draggable = {
+    card: null,
     dragged: null
 }
 let items = {
-    cards: null,
     columns: null
 };
 
-function initElements(boardId) {
-    items.cards = document.querySelectorAll(`.card-board-${boardId}`);
-    items.columns = document.querySelectorAll(`.bcc-${boardId}`);
-    items.cards.forEach(function (card) {
-        card.draggable = true;
-    })
+function initElements(card) {
+    items.card = document.querySelector(`.card-id-${card.id}`);
+    items.columns = document.querySelectorAll(`.dropzone-${card["board_id"]}`);
+    items.card.draggable = true;
 }
 
 function initDragEvents() {
-    items.cards.forEach(function (card) {
-        initDraggable(card);
-    });
+    initDraggable(items.card);
     items.columns.forEach(function (column) {
         initDropzone(column);
     })
@@ -61,7 +56,7 @@ function handleDragEnd(e) {
 }
 
 function handleDragEnter(e) {
-    console.log("Drag enter of ", e.currentTarget);
+    // console.log("Drag enter of ", e.currentTarget);
 }
 
 function handleDragOver(e) {
@@ -69,14 +64,17 @@ function handleDragOver(e) {
 }
 
 function handleDragLeave(e) {
-    console.log("Drag leave of ", e.currentTarget);
+    // console.log("Drag leave of ", e.currentTarget);
 }
 
-function handleDrop(e, boardId) {
+function handleDrop(e) {
     e.preventDefault();
     const dropzone = e.currentTarget;
     const dragged = draggable.dragged;
-    if (dom.hasClass(dropzone, `.bcc-${boardId}`)) {
-        dropzone.insertAdjacentElement("beforeend", dragged);
-    }
+    console.log(dropzone);
+    console.log(dragged);
+    dropzone.children[1].insertAdjacentElement("beforeend", dragged);
+    // if (dom.hasClass(dropzone, `.board-column`)) {
+    //     dropzone.children[1].insertAdjacentElement("beforeend", dragged);
+    // }
 }
