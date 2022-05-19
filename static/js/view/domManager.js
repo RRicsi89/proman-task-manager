@@ -89,6 +89,7 @@ export let domManager = {
             deleteButtonHandler(card);
         });
         initDragAndDrop(card);
+        renameCard();
     },
     toggleButton(boardId, style){
     const toggleButtons = document.querySelectorAll('.board-toggle');
