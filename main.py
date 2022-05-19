@@ -46,6 +46,14 @@ def rename_board(board_id: int):
         return queries.rename_board(board_id, title)
 
 
+@app.route("/api/boards/<int:board_id>/new_column", methods=['GET', 'POST', 'PUT'])
+@json_response
+def add_new_column(board_id: int):
+    if request.method == 'PUT':
+        title = request.get_json()
+        return '';
+
+
 def main():
     app.run(
     port=8000,
