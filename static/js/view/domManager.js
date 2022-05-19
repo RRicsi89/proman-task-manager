@@ -89,14 +89,67 @@ export let domManager = {
         this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
         initDragAndDrop(card);
     },
-};
+    toggleButton(boardId, style){
+    const toggleButtons = document.querySelectorAll('.board-toggle');
+    const newColumnButtonIndex = 2;
+    for (let button of toggleButtons) {
+        if (button.dataset.boardId === boardId){
+            let newColumnButton = document.createElement('button');
+            newColumnButton.textContent = 'Add new column';
+            newColumnButton.classList.add('new-column-button');
+            let currentHeader = button.parentNode;
+            if (style === 'none'){
+                currentHeader.insertBefore(newColumnButton, button);
+            } else {
+                currentHeader.children[newColumnButtonIndex].remove();
+            }
+        }
+    }
+    },
+    addNewColumn(){
+        const buttons = document.getElementsByClassName('new-column-button');
+        for (let button of buttons){
+            button.addEventListener('click', function (e){
+                const parent = e.currentTarget.parentNode.parentNode.children[1];
+                let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
+                    if (parent) {
+                        parent.insertAdjacentHTML("beforeend", content);
+                    } else {
+                        console.error("could not find such html element");
+                    }
+                    e.preventDefault();
+                    let boardHeader = document.querySelector(`#bc-${boardId}>.board-header`);
+                    let newColumnButton = document.querySelector(`#bc-${boardId}>.board-header>.new-column-button`);
+                    boardHeader.removeChild(newColumnButton);
+                    let newColumnButton1 = document.createElement('button');
+                    newColumnButton1.textContent = 'Add new column';
+                    newColumnButton1.classList.add('new-column-button');
+                    boardHeader.insertBefore(newColumnButton1, boardHeader.children[2]);
+                    domManager.addNewColumn();
+                    let columnNumber = boardHeader.nextElementSibling.children.length;
+                    dataHandler.addNewColumn(boardId, columnNumber, newColumnName)
+                });
+                button.innerHTML = "";
+                button.appendChild(input);
+                button.appendChild(saveButton);
+                input.focus();
+            }
+        },
+    dynamicColumns(boardId, style){
+    domManager.toggleButton(boardId, style);
+    domManager.addNewColumn();
+    }
+    }
+
+
+
 
 export async function renameCard() {
     let cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         card.addEventListener('dblclick', function (e) {
             const cardId = card.dataset.cardId;
-            let cardName = e.currentTarget.textContent;
+            let cardName = card.title;
             let input = document.createElement('input');
             let saveButton = document.createElement('button');
             saveButton.textContent = "Save";
@@ -112,10 +165,10 @@ export async function renameCard() {
                 card.textContent = cardName;
                 dataHandler.renameCard(cardId, cardName);
                 card.appendChild(deleteBtn);
-
             });
             card.innerHTML = "";
             card.appendChild(input);
+            input.value = cardName;
             card.appendChild(saveButton);
             input.focus();
         })
