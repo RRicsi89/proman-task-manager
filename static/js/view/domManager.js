@@ -80,8 +80,9 @@ export let domManager = {
     async addNewCard(boardId) {
         const cardTitle = "New card";
         await dataHandler.createNewCard(cardTitle, boardId);
-        const card = await dataHandler.getNewCard(boardId);
-        const cardBuilder = htmlFactory(htmlTemplates.card);
+        const cards = await dataHandler.getNewCard(boardId);
+        const card = cards[0];
+        const cardBuilder = await htmlFactory(htmlTemplates.card);
         const content = cardBuilder(card);
         this.addChild(`.new-card-${boardId}`, content);
         this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
