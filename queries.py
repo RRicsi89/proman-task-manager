@@ -76,7 +76,7 @@ def count_cards(board_id, status_id):
     result = data_manager.execute_select(
         """
         SELECT COUNT(id) FROM cards
-        WHERE board_id = %(board_id)s AND status_id = %(status_id)s
+        WHERE (board_id = %(board_id)s AND status_id = %(status_id)s)
         """, {"board_id": board_id, "status_id": status_id}
     )
     return result

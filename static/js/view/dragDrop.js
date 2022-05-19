@@ -69,41 +69,23 @@ async function handleDrop(e) {
     const dragged = draggable.dragged;
 
     if (dropzone.dataset.boardId === dragged.dataset.boardId) {
-        if (e.target.classList.contains("card")) {
-            const clone = e.target;
+        if (e.target.classList.contains("card") && e.target.dataset.cardId !== dragged.dataset.cardId && e.target.dataset.status === dragged.dataset.status) {
+            const clone = e.target.cloneNode(true);
             const boardId = dragged.dataset.boardId;
-            const cardsCount = dropzone.children[1].children.length;
+            clone.dataset.order = dragged.dataset.order;
+            dragged.dataset.order = e.target.dataset.order;
 
-            let j = new Number();
-            if (e.target.dataset.cardId !== dragged.dataset.cardId && e.target.dataset.status !== dragged.dataset.status) {
-                dragged.dataset.order = clone.dataset.order;
-                dragged.dataset.status = clone.dataset.status;
-                for (let i = 0; i < cardsCount; i++) {
-                    if (dropzone.children[1].children[i].dataset.cardId === clone.dataset.cardId) {
-                        j = i;
-                        break;
-                    }
-                }
-                for (let k = j; k < cardsCount; k++) {
-                    dropzone.children[1].children[k].dataset.order = Number(dropzone.children[1].children[k].dataset.order) + 1;
-                }
-
-                await dataHandler.updateCard(dragged.dataset.cardId, {"status_id": dragged.dataset.status, "card_order": dragged.dataset.order});
-                await dataHandler.updateCard(clone.dataset.cardId, {"status_id": clone.dataset.status, "card_order": clone.dataset.order});
-                const cards = document.querySelectorAll(`.card-board-${boardId}`);
-                cards.forEach((card) => card.remove());
-                await cardsManager.loadCards(boardId);
-
-            } else if (e.target.dataset.cardId !== dragged.dataset.cardId && e.target.dataset.status === dragged.dataset.status) {
-                clone.dataset.order = dragged.dataset.order;
-                dragged.dataset.order = e.target.dataset.order;
-                dragged.dataset.status = e.target.dataset.status;
-                await dataHandler.updateCard(dragged.dataset.cardId, {"status_id": dragged.dataset.status, "card_order": dragged.dataset.order});
-                await dataHandler.updateCard(clone.dataset.cardId, {"status_id": clone.dataset.status, "card_order": clone.dataset.order});
-                const cards = document.querySelectorAll(`.card-board-${boardId}`);
-                cards.forEach((card) => card.remove());
-                await cardsManager.loadCards(boardId);
-            }
+            await dataHandler.updateCard(dragged.dataset.cardId, {
+                "status_id": dragged.dataset.status,
+                "card_order": dragged.dataset.order
+            });
+            await dataHandler.updateCard(clone.dataset.cardId, {
+                "status_id": clone.dataset.status,
+                "card_order": clone.dataset.order
+            });
+            const cards = document.querySelectorAll(`.card-board-${boardId}`);
+            cards.forEach((card) => card.remove());
+            await cardsManager.loadCards(boardId);
         } else {
             dropzone.children[1].insertAdjacentElement("beforeend", dragged);
             const cardId = e.dataTransfer.getData("text/plain");
@@ -111,9 +93,11 @@ async function handleDrop(e) {
             const boardId = dragged.dataset.boardId;
             dragged.dataset.status = status;
             const cardsCount = await dataHandler.getCardNumber(boardId, status);
+            console.log(cardsCount);
+            dragged.dataset.order = cardsCount[0]["count"] + 1;
             await dataHandler.updateCard(cardId, {"status_id": status, "card_order": cardsCount[0]["count"]});
+            }
         }
-    }
 }
 
 
