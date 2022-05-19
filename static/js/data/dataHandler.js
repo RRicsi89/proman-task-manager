@@ -34,6 +34,9 @@ export let dataHandler = {
     },
     updateBoard: async function (boardId, boardData) {
         return await apiPut(`/api/boards/${boardId}`, boardData)
+    },
+    updateColumnTitle: async function (boardId, statusTitle) {
+        return await apiPut(`/api/boards/${boardId}/title`, statusTitle)
     }
 };
 
