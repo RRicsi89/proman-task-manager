@@ -51,8 +51,6 @@ def rename_board(board_id: int):
 def add_new_column(board_id: int, status_id: int):
     if request.method == 'PUT':
         column_name = request.get_json()
-        print(board_id)
-        print(status_id)
         return queries.add_new_column(board_id, status_id)
 
 
