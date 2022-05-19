@@ -35,6 +35,7 @@ export let cardsManager = {
             );
             initDragAndDrop(card);
         }
+        renameCard();
         // domManager.renameColumns();
     },
 };
