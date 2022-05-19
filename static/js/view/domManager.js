@@ -3,6 +3,7 @@ import {htmlFactory, htmlTemplates} from "./htmlFactory.js";
 import {cardsManager, deleteButtonHandler} from "../controller/cardsManager.js";
 import {initDragAndDrop} from "./dragDrop.js";
 
+
 export let domManager = {
     addChild(parentIdentifier, childContent) {
         const parent = document.querySelector(parentIdentifier);
@@ -87,5 +88,31 @@ export let domManager = {
         this.addChild(`.new-card-${boardId}`, content);
         this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
         initDragAndDrop(card);
-    }
+    },
 };
+
+export async function renameCard() {
+    let cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('dblclick', function (e) {
+            const cardId = card.dataset.id;
+            let cardName = e.currentTarget.textContent;
+            let input = document.createElement('input');
+            let saveButton = document.createElement('button');
+            saveButton.textContent = "Save";
+            saveButton.dataset.id = cardId;
+            input.value = cardName;
+            input.type = 'text';
+            saveButton.addEventListener('click', function (e) {
+                let cardId = this.dataset.id;
+                let cardName = input.value;
+                card.textContent = cardName;
+                dataHandler.updateCard(cardId, cardName)
+            });
+            card.innerHTML = "";
+            card.appendChild(input);
+            card.appendChild(saveButton);
+            input.focus();
+        })
+    })
+}
