@@ -19,6 +19,7 @@ export let boardsManager = {
                 showHideButtonHandler
             );
             dragAndDrop.initDragAndDrop(board.id);
+            domManager.renameColumns(board.id);
         }
         domManager.renameBoard();
     },
