@@ -31,7 +31,7 @@ export let boardsManager = {
 };
 
 export function showHideButtonHandler(clickEvent) {
-    const boardId = clickEvent.target.parentElement.dataset.boardId;
+    const boardId = clickEvent.target.dataset.boardId;
     const boardBody = document.querySelector(`.board-columns-${boardId}`);
     if (boardBody.style.display === "none"){
         domManager.dynamicColumns(boardId, boardBody.style.display);

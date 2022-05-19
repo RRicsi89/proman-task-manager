@@ -2,6 +2,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
 import {initDragAndDrop} from "../view/dragDrop.js";
+import {renameCard} from "../view/domManager.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -34,6 +35,7 @@ export let cardsManager = {
             );
             initDragAndDrop(card);
         }
+        renameCard();
     },
 };
 
