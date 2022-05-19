@@ -42,7 +42,6 @@ function cardBuilder(card) {
                     data-order="${card['card_order']}">${card.title}
             <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
         </div>
-        
     `;
 }
 
