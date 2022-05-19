@@ -43,6 +43,11 @@ def rename_board(board_id: int):
     if request.method == 'PUT':
         title = request.get_json()
         return queries.rename_board(board_id, title)
+    elif request.method == "POST":
+        title = request.get_json()
+        status = 1
+        card_order = queries.count_cards(board_id, status)[0]["count"]
+        return queries.save_new_card(board_id, status, title, card_order)
 
 
 @app.route("/api/boards/<int:board_id>/statuses/<int:status_id>/")
@@ -54,10 +59,17 @@ def get_card_count(board_id: int, status_id: int):
 @app.route("/api/cards/<int:card_id>", methods=["GET", "POST", "PUT"])
 @json_response
 def update_card_data(card_id):
-    data = request.get_json()
-    status_id = data["status_id"]
-    card_order = int(data["card_order"]) + 1
-    return queries.update_card_status(card_id, status_id, card_order)
+    if request.method == "PUT":
+        data = request.get_json()
+        status_id = data["status_id"]
+        card_order = int(data["card_order"]) + 1
+        return queries.update_card_status(card_id, status_id, card_order)
+
+
+@app.route("/api/board/<int:board_id>")
+@json_response
+def get_new_card_data(board_id: int):
+    return queries.get_new_card(board_id)
 
 
 def main():

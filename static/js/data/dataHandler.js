@@ -37,6 +37,9 @@ export let dataHandler = {
     },
     getCardNumber: async function(board_id, status_id) {
         return await apiGet(`/api/boards/${board_id}/statuses/${status_id}/`)
+    },
+    getNewCard: async function(board_id) {
+        return await apiGet(`/api/board/${board_id}`)
     }
 };
 

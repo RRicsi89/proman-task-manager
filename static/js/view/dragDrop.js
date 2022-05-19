@@ -93,7 +93,6 @@ async function handleDrop(e) {
             const boardId = dragged.dataset.boardId;
             dragged.dataset.status = status;
             const cardsCount = await dataHandler.getCardNumber(boardId, status);
-            console.log(cardsCount);
             dragged.dataset.order = cardsCount[0]["count"] + 1;
             await dataHandler.updateCard(cardId, {"status_id": status, "card_order": cardsCount[0]["count"]});
             }
