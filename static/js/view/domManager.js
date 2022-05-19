@@ -24,23 +24,21 @@ export let domManager = {
         const parent = document.querySelector(`#bc-${boardId}`);
         const content = `
             <div class="board-columns-${boardId}" style="display: none">
+         
                 <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="1">
-                    <div class="board-column-title">New</div>
+                    <div class="board-column-title-${boardId}">New</div>
                     <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
                 </div>
-                
                 <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="2">
-                    <div class="board-column-title">In Progress</div>
+                    <div class="board-column-title-${boardId}">In Progress</div>
                     <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
                 </div>
-                
                 <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="3">
-                    <div class="board-column-title">Testing</div>
+                    <div class="board-column-title-${boardId}">Testing</div>
                     <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
                 </div>
-                
                 <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="4">
-                    <div class="board-column-title">Done</div>
+                    <div class="board-column-title-${boardId}">Done</div>
                     <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
                 </div>
             </div>
@@ -76,6 +74,30 @@ export let domManager = {
             })
         }
         )
+    },
+    renameColumns(boardId){
+        let columnTitles = document.querySelectorAll(`.board-column-title-${boardId}`);
+        columnTitles.forEach(title => {
+            title.addEventListener('dblclick', function (e){
+                let statusTitle = e.currentTarget.textContent;
+                let input = document.createElement('input');
+                input.value = statusTitle;
+                input.type = 'input';
+                input.addEventListener('keypress', function (e) {
+                    if (e.key === 'Enter') {
+                        let statusTitle = input.value;
+                        title.innerHTML = statusTitle;
+                        dataHandler.updateColumnTitle(boardId, statusTitle)
+                            .then(result => (result[0].id))
+                            .then(statusId => console.log(statusId))
+                    }
+                });
+                title.innerHTML = "";
+                title.appendChild(input);
+                input.focus();
+            })
+        })
+
     },
     async addNewCard(boardId) {
         const cardTitle = "New card";

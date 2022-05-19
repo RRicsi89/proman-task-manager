@@ -72,6 +72,28 @@ def rename_board(board_id, board_title):
     return title
 
 
+def add_new_status(status_title):
+    data_manager.execute_update(
+        """
+        INSERT INTO statuses (title)
+        VALUES (%(status_title)s)
+        ON CONFLICT (title)
+        DO NOTHING;
+        """
+        , {"status_title": status_title})
+
+    status_id = data_manager.execute_select(
+        """
+        SELECT id FROM statuses
+        WHERE statuses.title = %(title)s
+        ;
+        """
+        , {"title": status_title})
+
+    return status_id
+
+
+
 def count_cards(board_id, status_id):
     result = data_manager.execute_select(
         """

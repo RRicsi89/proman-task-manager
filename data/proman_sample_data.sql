@@ -91,3 +91,7 @@ ALTER TABLE ONLY board_columns
 
 INSERT INTO board_columns (board_id, status_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4);
 INSERT INTO board_columns (board_id, status_id) VALUES (2, 1), (2, 2), (2, 3), (2, 4);
+
+
+create unique index statuses_title_uindex
+    on statuses (title);

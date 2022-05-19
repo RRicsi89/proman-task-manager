@@ -24,6 +24,7 @@ export let boardsManager = {
                     domManager.addNewCard(board.id);
                 }
             );
+            domManager.renameColumns(board.id);
         }
         domManager.renameBoard();
     },
