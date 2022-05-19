@@ -111,7 +111,7 @@ export let domManager = {
             button.addEventListener('click', function (e){
                 const parent = e.currentTarget.parentNode.parentNode.children[1];
                 let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
-
+                console.log(boardId);
                 let input = document.createElement('input');
                 let saveButton = document.createElement('button');
                 saveButton.textContent = "Save";
