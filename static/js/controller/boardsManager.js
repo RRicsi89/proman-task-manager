@@ -17,6 +17,13 @@ export let boardsManager = {
                 "click",
                 showHideButtonHandler
             );
+            domManager.addEventListener(
+                `.board-add[data-board-id="${board.id}"]`,
+                "click",
+                () => {
+                    domManager.addNewCard(board.id);
+                }
+            );
         }
         domManager.renameBoard();
     },
