@@ -37,6 +37,15 @@ export let dataHandler = {
     },
     updateColumnTitle: async function (boardId, statusTitle) {
         return await apiPut(`/api/boards/${boardId}/title`, statusTitle)
+    },
+    getCardNumber: async function(board_id, status_id) {
+        return await apiGet(`/api/boards/${board_id}/statuses/${status_id}/`)
+    },
+    getNewCard: async function(board_id) {
+        return await apiGet(`/api/board/${board_id}`)
+    },
+    addNewColumn: async function (boardId, statusId, columnName) {
+        return await apiPut(`/api/boards/${boardId}/${statusId}/new_column`, columnName)
     }
 };
 

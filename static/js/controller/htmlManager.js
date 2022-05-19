@@ -9,7 +9,7 @@ export let addNewBoard = function() {
 }
 
 async function getBoardName() {
-    createModal();
+    createModal("board");
     const boardTitleField = document.querySelector("#board-name");
     let boardTitle = new String();
     boardTitleField.addEventListener("change", function() {
@@ -23,30 +23,51 @@ async function getBoardName() {
         const content = boardBuilder(lastBoard);
         await domManager.addChild("#root", content);
         domManager.addBoardColumns(lastBoard.id);
-        cardsManager.loadCards(lastBoard.id);
+        await cardsManager.loadCards(lastBoard.id);
         domManager.addEventListener(
             `.toggle-board-button[data-board-id="${lastBoard.id}"]`,
             "click",
             showHideButtonHandler
         );
+        const newBoardTitle = document.querySelector(`.board-title[data-id="${lastBoard.id}"]`)
+        newBoardTitle.addEventListener('dblclick', function (e) {
+            const boardId = e.target.dataset.id;
+            let boardName = e.currentTarget.textContent;
+            let input = document.createElement('input');
+            let saveButton = document.createElement('button');
+            saveButton.textContent = "Save";
+            saveButton.dataset.id = boardId
+            input.value = boardName;
+            input.type = 'text';
+            saveButton.addEventListener('click', function (e) {
+                let boardId = this.dataset.id;
+                let boardName = input.value;
+                newBoardTitle.innerHTML = boardName;
+                dataHandler.updateBoard(boardId, boardName)
+            });
+            newBoardTitle.innerHTML = "";
+            newBoardTitle.appendChild(input);
+            newBoardTitle.appendChild(saveButton);
+            newBoardTitle.focus();
+        })
     });
 
     return boardTitle
 }
 
 
-function createModal() {
+function createModal(title) {
     const modalContainer = document.createElement("div");
     modalContainer.innerHTML = `
         <div class="modal" tabindex="-1" id="new-board-modal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Create new board</h5>
+                <h5 class="modal-title">Create new ${title}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                    <label for="board-name">Board name</label>
+                    <label for="board-name">${title.charAt(0).toUpperCase() + title.slice(1)} name</label>
                     <input type="text" id="board-name" name="board-name" required>
               </div>
               <div class="modal-footer">
@@ -62,4 +83,3 @@ function createModal() {
     var modal = new bootstrap.Modal(modalContainer.querySelector(".modal"));
     modal.show();
 }
-

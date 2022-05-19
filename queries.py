@@ -29,6 +29,7 @@ def get_boards():
     return data_manager.execute_select(
         """
         SELECT * FROM boards
+        ORDER BY id
         ;
         """
     )
@@ -42,12 +43,12 @@ def get_cards_for_board(board_id):
         """
         SELECT * FROM cards
         WHERE cards.board_id = %(board_id)s
+        ORDER BY status_id, card_order
         ;
         """
         , {"board_id": board_id})
 
     return matching_cards
-
 
 
 def save_new_board(board_title):
@@ -56,6 +57,7 @@ def save_new_board(board_title):
     INSERT INTO boards (title)
     VALUES (%(board_title)s);
     """, {"board_title": board_title})
+
 
 def rename_board(board_id, board_title):
     title = data_manager.execute_update(
@@ -90,3 +92,60 @@ def add_new_status(status_title):
 
     return status_id
 
+
+
+def count_cards(board_id, status_id):
+    result = data_manager.execute_select(
+        """
+        SELECT COUNT(id) as count FROM cards
+        WHERE (board_id = %(board_id)s AND status_id = %(status_id)s)
+        """, {"board_id": board_id, "status_id": status_id}
+    )
+    return result
+
+
+def update_card_status(card_id, status_id, card_order):
+    data_manager.execute_update(
+        """
+        UPDATE cards
+        SET status_id = %(status_id)s, card_order = %(card_order)s
+        WHERE id = %(card_id)s;
+        """, {"card_id": card_id, "status_id": status_id, "card_order": card_order}
+    )
+
+def delete_card(card_id):
+    data_manager.execute_update(
+    """
+        DELETE FROM cards
+        WHERE id = %(card_id)s
+    """, {"card_id": card_id}
+    )
+
+
+def save_new_card(board_id, status_id, title, card_order):
+    data_manager.execute_update(
+    """
+    INSERT INTO cards (board_id, status_id, title, card_order)
+    VALUES (%(board_id)s, %(status_id)s, %(title)s, %(card_order)s);
+    """, {"board_id": board_id, "status_id": status_id, "title": title, "card_order": card_order})
+
+
+def get_new_card(board_id):
+    result = data_manager.execute_select(
+        """
+        SELECT * FROM cards
+        WHERE (board_id = %(board_id)s AND status_id = 1)
+        ORDER BY id DESC
+        LIMIT 1
+        """, {"board_id": board_id}
+    )
+    return result
+
+
+
+def add_new_column(board_id, status_id):
+    data_manager.execute_update(
+        """
+        INSERT INTO board_columns (board_id, status_id)
+        VALUES (%(board_id)s, %(status_id)s);
+        """, {"board_id": board_id, "status_id": status_id})

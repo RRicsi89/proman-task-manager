@@ -1,4 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
+import {htmlFactory, htmlTemplates} from "./htmlFactory.js";
+import {cardsManager, deleteButtonHandler} from "../controller/cardsManager.js";
+import {initDragAndDrop} from "./dragDrop.js";
 
 export let domManager = {
     addChild(parentIdentifier, childContent) {
@@ -21,19 +24,20 @@ export let domManager = {
         const parent = document.querySelector(`#bc-${boardId}`);
         const content = `
             <div class="board-columns-${boardId}" style="display: none">
-                <div class="board-column">
+         
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="1">
                     <div class="board-column-title-${boardId}">New</div>
                     <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="2">
                     <div class="board-column-title-${boardId}">In Progress</div>
                     <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="3">
                     <div class="board-column-title-${boardId}">Testing</div>
                     <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="4">
                     <div class="board-column-title-${boardId}">Done</div>
                     <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
                 </div>
@@ -68,7 +72,6 @@ export let domManager = {
                 title.appendChild(saveButton);
                 input.focus();
             })
-
         }
         )
     },
@@ -95,5 +98,82 @@ export let domManager = {
             })
         })
 
+    },
+    async addNewCard(boardId) {
+        const cardTitle = "New card";
+        await dataHandler.createNewCard(cardTitle, boardId);
+        const cards = await dataHandler.getNewCard(boardId);
+        const card = cards[0];
+        const cardBuilder = await htmlFactory(htmlTemplates.card);
+        const content = cardBuilder(card);
+        this.addChild(`.new-card-${boardId}`, content);
+        this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
+        initDragAndDrop(card);
+    },
+    toggleButton(boardId, style){
+    const toggleButtons = document.querySelectorAll('.board-toggle');
+    const newColumnButtonIndex = 2;
+    for (let button of toggleButtons) {
+        if (button.dataset.boardId === boardId){
+            let newColumnButton = document.createElement('button');
+            newColumnButton.textContent = 'Add new column';
+            newColumnButton.classList.add('new-column-button');
+            let currentHeader = button.parentNode;
+            if (style === 'none'){
+                currentHeader.insertBefore(newColumnButton, button);
+            } else {
+                currentHeader.children[newColumnButtonIndex].remove();
+            }
+        }
     }
+    },
+    addNewColumn(){
+        const buttons = document.getElementsByClassName('new-column-button');
+        for (let button of buttons){
+            button.addEventListener('click', function (e){
+                const parent = e.currentTarget.parentNode.parentNode.children[1];
+                let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
+                console.log(boardId);
+                let input = document.createElement('input');
+                let saveButton = document.createElement('button');
+                saveButton.textContent = "Save";
+                input.type = 'text';
+
+                saveButton.addEventListener('click',  function (e) {
+                    let newColumnName = input.value;
+                    const content = `
+                        <div class="board-column">
+                            <div class="board-column-title">${newColumnName}</div>
+                            <div class="bcc-${boardId} board-column-content input-card-${boardId}"></div>
+                        </div>`;
+
+                    if (parent) {
+                        parent.insertAdjacentHTML("beforeend", content);
+                    } else {
+                        console.error("could not find such html element");
+                    }
+                    e.preventDefault();
+                    let boardHeader = document.querySelector(`#bc-${boardId}>.board-header`);
+                    let newColumnButton = document.querySelector(`#bc-${boardId}>.board-header>.new-column-button`);
+                    boardHeader.removeChild(newColumnButton);
+                    let newColumnButton1 = document.createElement('button');
+                    newColumnButton1.textContent = 'Add new column';
+                    newColumnButton1.classList.add('new-column-button');
+                    boardHeader.insertBefore(newColumnButton1, boardHeader.children[2]);
+                    domManager.addNewColumn();
+                    let columnNumber = boardHeader.nextElementSibling.children.length;
+                    dataHandler.addNewColumn(boardId, columnNumber, newColumnName)
+                });
+                button.innerHTML = "";
+                button.appendChild(input);
+                button.appendChild(saveButton);
+                input.focus();
+            })
+        }
+    },
+    dynamicColumns(boardId, style){
+        domManager.toggleButton(boardId, style);
+        domManager.addNewColumn();
+    },
 };
+
