@@ -1,6 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {domManager} from "../view/domManager.js";
+import {initDragAndDrop} from "../view/dragDrop.js";
 
 export let cardsManager = {
     loadCards: async function (boardId) {
@@ -29,10 +30,19 @@ export let cardsManager = {
                 "click",
                 deleteButtonHandler
             );
+            initDragAndDrop(card);
         }
         // domManager.renameColumns();
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+export async function deleteButtonHandler(clickEvent) {
+    const card = this;
+    const cardId = card.dataset.cardId;
+    const boardId = card.dataset.boardId;
+    await dataHandler.deleteCard(cardId);
+
+    const cards = document.querySelectorAll(`.card-board-${boardId}`);
+    cards.forEach((card) => card.remove());
+    await cardsManager.loadCards(boardId);
 }

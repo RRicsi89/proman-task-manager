@@ -1,4 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
+import {htmlFactory, htmlTemplates} from "./htmlFactory.js";
+import {cardsManager, deleteButtonHandler} from "../controller/cardsManager.js";
+import {initDragAndDrop} from "./dragDrop.js";
 
 export let domManager = {
     addChild(parentIdentifier, childContent) {
@@ -21,19 +24,22 @@ export let domManager = {
         const parent = document.querySelector(`#bc-${boardId}`);
         const content = `
             <div class="board-columns-${boardId}" style="display: none">
-                <div class="board-column">
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="1">
                     <div class="board-column-title">New</div>
                     <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="2">
                     <div class="board-column-title">In Progress</div>
                     <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="3">
                     <div class="board-column-title">Testing</div>
                     <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
                 </div>
-                <div class="board-column">
+                
+                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="4">
                     <div class="board-column-title">Done</div>
                     <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
                 </div>
@@ -68,9 +74,19 @@ export let domManager = {
                 title.appendChild(saveButton);
                 input.focus();
             })
-
         }
         )
+    },
+    async addNewCard(boardId) {
+        const cardTitle = "New card";
+        await dataHandler.createNewCard(cardTitle, boardId);
+        const cards = await dataHandler.getNewCard(boardId);
+        const card = cards[0];
+        const cardBuilder = await htmlFactory(htmlTemplates.card);
+        const content = cardBuilder(card);
+        this.addChild(`.new-card-${boardId}`, content);
+        this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
+        initDragAndDrop(card);
     },
     toggleButton(boardId, style){
     const toggleButtons = document.querySelectorAll('.board-toggle');
