@@ -44,4 +44,3 @@ async function deleteButtonHandler(clickEvent) {
     const cards = document.querySelectorAll(`.card-board-${boardId}`);
     cards.forEach((card) => card.remove());
     await this.loadCards(boardId);
-}

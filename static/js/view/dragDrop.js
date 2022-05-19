@@ -74,14 +74,15 @@ async function handleDrop(e) {
             const boardId = dragged.dataset.boardId;
             clone.dataset.order = dragged.dataset.order;
             dragged.dataset.order = e.target.dataset.order;
+            const cardNumber = dropzone.children[1].children.length;
 
             await dataHandler.updateCard(dragged.dataset.cardId, {
                 "status_id": dragged.dataset.status,
-                "card_order": dragged.dataset.order
+                "card_order": dragged.dataset.order - 1
             });
             await dataHandler.updateCard(clone.dataset.cardId, {
                 "status_id": clone.dataset.status,
-                "card_order": clone.dataset.order
+                "card_order": clone.dataset.order - 1
             });
             const cards = document.querySelectorAll(`.card-board-${boardId}`);
             cards.forEach((card) => card.remove());
@@ -93,33 +94,11 @@ async function handleDrop(e) {
             const boardId = dragged.dataset.boardId;
             dragged.dataset.status = status;
             const cardsCount = await dataHandler.getCardNumber(boardId, status);
-            console.log(cardsCount);
             dragged.dataset.order = cardsCount[0]["count"] + 1;
             await dataHandler.updateCard(cardId, {"status_id": status, "card_order": cardsCount[0]["count"]});
             }
         }
 }
-
-
-
-// e.target.replaceWith(dragged);
-//                 const cardNumber = dropzone.children[1].children.length;
-//                 for (let i = 0; i < cardNumber; i++) {
-//                     if (dropzone.children[1].children[i].dataset.cardId === dragged.dataset.cardId) {
-//                         cardsRemaining.push(dragged);
-//                         cardsRemaining.push(clone);
-//                     } else {
-//                         cardsRemaining.push(dropzone.children[1].children[i]);
-//                     }
-//                 }
-//                 for (let j = 0; j <= cardNumber; j++) {
-//                     if (j === cardNumber) {
-//                         dropzone.children[1].appendChild(cardsRemaining[j]);
-//                     } else {
-//                         dropzone.children[1].children[j].replaceWith(cardsRemaining[j]);
-//                     }
-//                 }
-
 
 
 

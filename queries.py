@@ -75,7 +75,7 @@ def rename_board(board_id, board_title):
 def count_cards(board_id, status_id):
     result = data_manager.execute_select(
         """
-        SELECT COUNT(id) FROM cards
+        SELECT COUNT(id) as count FROM cards
         WHERE (board_id = %(board_id)s AND status_id = %(status_id)s)
         """, {"board_id": board_id, "status_id": status_id}
     )
@@ -98,3 +98,24 @@ def delete_card(card_id):
         WHERE id = %(card_id)s
     """, {"card_id": card_id}
     )
+
+
+def save_new_card(board_id, status_id, title, card_order):
+    data_manager.execute_update(
+    """
+    INSERT INTO cards (board_id, status_id, title, card_order)
+    VALUES (%(board_id)s, %(status_id)s, %(title)s, %(card_order)s);
+    """, {"board_id": board_id, "status_id": status_id, "title": title, "card_order": card_order})
+
+
+def get_new_card(board_id):
+    result = data_manager.execute_select(
+        """
+        SELECT * FROM cards
+        WHERE (board_id = %(board_id)s AND status_id = 1)
+        ORDER BY id DESC
+        LIMIT 1
+        """, {"board_id": board_id}
+    )
+    return result
+

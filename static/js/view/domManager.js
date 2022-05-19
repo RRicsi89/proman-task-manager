@@ -1,4 +1,7 @@
 import {dataHandler} from "../data/dataHandler.js";
+import {htmlFactory, htmlTemplates} from "./htmlFactory.js";
+import {cardsManager, deleteButtonHandler} from "../controller/cardsManager.js";
+import {initDragAndDrop} from "./dragDrop.js";
 
 export let domManager = {
     addChild(parentIdentifier, childContent) {
@@ -73,5 +76,16 @@ export let domManager = {
             })
         }
         )
+    },
+    async addNewCard(boardId) {
+        const cardTitle = "New card";
+        await dataHandler.createNewCard(cardTitle, boardId);
+        const cards = await dataHandler.getNewCard(boardId);
+        const card = cards[0];
+        const cardBuilder = await htmlFactory(htmlTemplates.card);
+        const content = cardBuilder(card);
+        this.addChild(`.new-card-${boardId}`, content);
+        this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
+        initDragAndDrop(card);
     }
 };
