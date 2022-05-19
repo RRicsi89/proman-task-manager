@@ -30,7 +30,7 @@ export let cardsManager = {
                 deleteButtonHandler
             );
         }
-        domManager.renameColumns();
+        // domManager.renameColumns();
     },
 };
 
