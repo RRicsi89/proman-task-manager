@@ -11,7 +11,7 @@ export let boardsManager = {
             const content = boardBuilder(board);
             await domManager.addChild("#root", content);
             domManager.addBoardColumns(board.id);
-            cardsManager.loadCards(board.id);
+            await cardsManager.loadCards(board.id);
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
