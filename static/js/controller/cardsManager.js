@@ -32,8 +32,8 @@ export let cardsManager = {
                 deleteButtonHandler
             );
             initDragAndDrop(card);
-            renameCard();
         }
+        renameCard();
     },
 };
 

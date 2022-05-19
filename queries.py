@@ -110,3 +110,13 @@ def get_new_card(board_id):
         """, {"board_id": board_id}
     )
     return result
+
+
+def rename_card(card_id, title):
+    data_manager.execute_update(
+        """
+        UPDATE cards
+        SET title = %(title)s
+        WHERE id = %(card_id)s;
+        """, {"card_id": card_id, "title": title}
+    )

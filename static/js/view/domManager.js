@@ -95,7 +95,7 @@ export async function renameCard() {
     let cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         card.addEventListener('dblclick', function (e) {
-            const cardId = card.dataset.id;
+            const cardId = card.dataset.cardId;
             let cardName = e.currentTarget.textContent;
             let input = document.createElement('input');
             let saveButton = document.createElement('button');
@@ -103,11 +103,16 @@ export async function renameCard() {
             saveButton.dataset.id = cardId;
             input.value = cardName;
             input.type = 'text';
+            const deleteBtn = document.createElement("div");
+            deleteBtn.classList.add("card-remove");
+            deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`
+            deleteBtn.addEventListener("click", deleteButtonHandler);
             saveButton.addEventListener('click', function (e) {
-                let cardId = this.dataset.id;
-                let cardName = input.value;
+                cardName = input.value;
                 card.textContent = cardName;
-                dataHandler.updateCard(cardId, cardName)
+                dataHandler.renameCard(cardId, cardName);
+                card.appendChild(deleteBtn);
+
             });
             card.innerHTML = "";
             card.appendChild(input);

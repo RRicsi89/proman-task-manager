@@ -72,6 +72,13 @@ def get_new_card_data(board_id: int):
     return queries.get_new_card(board_id)
 
 
+@app.route("/api/card/<int:card_id>", methods=["GET", "POST", "PUT"])
+@json_response
+def rename_card(card_id):
+    title = request.get_json()
+    return queries.rename_card(card_id, title)
+
+
 def main():
     app.run(
     port=8000,
