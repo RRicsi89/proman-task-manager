@@ -148,6 +148,7 @@ export async function renameCard() {
     let cards = document.querySelectorAll('.card');
     cards.forEach(card => {
         card.addEventListener('dblclick', function (e) {
+            card.draggable = false;
             const cardId = card.dataset.cardId;
             let cardName = card.title;
             let input = document.createElement('input');
@@ -161,6 +162,7 @@ export async function renameCard() {
             deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`
             deleteBtn.addEventListener("click", deleteButtonHandler);
             saveButton.addEventListener('click', function (e) {
+                card.draggable = true;
                 cardName = input.value;
                 card.textContent = cardName;
                 dataHandler.renameCard(cardId, cardName);
