@@ -82,6 +82,13 @@ def add_new_column(board_id: int, status_id: int):
         return queries.add_new_column(board_id, status_id)
 
 
+@app.route("/api/card/<int:card_id>", methods=["GET", "POST", "PUT"])
+@json_response
+def rename_card(card_id):
+    title = request.get_json()
+    return queries.rename_card(card_id, title)
+
+
 def main():
     app.run(
     port=8000,

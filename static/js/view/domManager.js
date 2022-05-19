@@ -85,8 +85,11 @@ export let domManager = {
         const cardBuilder = await htmlFactory(htmlTemplates.card);
         const content = cardBuilder(card);
         this.addChild(`.new-card-${boardId}`, content);
-        this.addEventListener(`.card-id-${card.id}`, 'click', deleteButtonHandler);
+        this.addEventListener(`.card-remove[data-card-id="${card.id}"]`, 'click', () => {
+            deleteButtonHandler(card);
+        });
         initDragAndDrop(card);
+        renameCard();
     },
     toggleButton(boardId, style){
     const toggleButtons = document.querySelectorAll('.board-toggle');
@@ -154,3 +157,45 @@ export let domManager = {
         domManager.addNewColumn();
     },
 };
+
+export async function renameCard() {
+    let cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('dblclick', function (e) {
+            card.draggable = false;
+
+            const cardId = card.dataset.cardId;
+            let cardName = card.title;
+            let input = document.createElement('input');
+            const renamedCard = {
+                "id": cardId,
+                "board_id": card.dataset.boardId
+            }
+            let saveButton = document.createElement('button');
+            saveButton.textContent = "Save";
+            saveButton.dataset.id = cardId;
+            input.value = cardName;
+            input.type = 'text';
+            let deleteBtn = document.createElement("div");
+            deleteBtn.classList.add("card-remove");
+            deleteBtn.dataset.cardId = cardId;
+            deleteBtn.innerHTML = `<i class="fas fa-trash-alt"></i>`
+            deleteBtn.addEventListener("click", () => {
+                deleteButtonHandler(renamedCard);
+            });
+
+            saveButton.addEventListener('click', function (e) {
+                card.draggable = true;
+                cardName = input.value;
+                card.textContent = cardName;
+                dataHandler.renameCard(cardId, cardName);
+                card.appendChild(deleteBtn);
+            });
+            card.innerHTML = "";
+            card.appendChild(input);
+            input.value = cardName;
+            card.appendChild(saveButton);
+            input.focus();
+        })
+    })
+}

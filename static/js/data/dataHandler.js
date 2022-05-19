@@ -43,7 +43,10 @@ export let dataHandler = {
     },
     addNewColumn: async function (boardId, statusId, columnName) {
         return await apiPut(`/api/boards/${boardId}/${statusId}/new_column`, columnName)
-    }
+    },
+    renameCard: async function (cardId, cardData) {
+        return await apiPut(`/api/card/${cardId}`, cardData)
+    },
 };
 
 
