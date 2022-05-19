@@ -33,10 +33,12 @@ export function showHideButtonHandler(clickEvent) {
     const boardId = clickEvent.target.parentElement.dataset.boardId;
     const boardBody = document.querySelector(`.board-columns-${boardId}`);
     if (boardBody.style.display === "none"){
+        domManager.dynamicColumns(boardId, boardBody.style.display);
         document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.remove("fas", "fa-chevron-down");
         document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.add("fas", "fa-chevron-up");
         boardBody.style.display = "flex";
     } else {
+        domManager.dynamicColumns(boardId, boardBody.style.display);
         document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.remove("fas", "fa-chevron-up");
         document.querySelector(`.toggle-btn-${boardId}`).firstElementChild.classList.add("fas", "fa-chevron-down");
         boardBody.style.display = "none";

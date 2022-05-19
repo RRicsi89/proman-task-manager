@@ -74,6 +74,14 @@ def get_new_card_data(board_id: int):
     return queries.get_new_card(board_id)
 
 
+@app.route("/api/boards/<int:board_id>/<int:status_id>/new_column", methods=['GET', 'POST', 'PUT'])
+@json_response
+def add_new_column(board_id: int, status_id: int):
+    if request.method == 'PUT':
+        column_name = request.get_json()
+        return queries.add_new_column(board_id, status_id)
+
+
 def main():
     app.run(
     port=8000,

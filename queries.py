@@ -119,3 +119,11 @@ def get_new_card(board_id):
     )
     return result
 
+
+
+def add_new_column(board_id, status_id):
+    data_manager.execute_update(
+        """
+        INSERT INTO board_columns (board_id, status_id)
+        VALUES (%(board_id)s, %(status_id)s);
+        """, {"board_id": board_id, "status_id": status_id})
