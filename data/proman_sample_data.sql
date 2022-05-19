@@ -77,3 +77,6 @@ ALTER TABLE ONLY cards
 
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+create unique index statuses_title_uindex
+    on statuses (title);
