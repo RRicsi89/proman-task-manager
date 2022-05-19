@@ -91,6 +91,14 @@ def update_card_status(card_id, status_id, card_order):
         """, {"card_id": card_id, "status_id": status_id, "card_order": card_order}
     )
 
+def delete_card(card_id):
+    data_manager.execute_update(
+    """
+        DELETE FROM cards
+        WHERE id = %(card_id)s
+    """, {"card_id": card_id}
+    )
+
 
 def save_new_card(board_id, status_id, title, card_order):
     data_manager.execute_update(
@@ -110,3 +118,4 @@ def get_new_card(board_id):
         """, {"board_id": board_id}
     )
     return result
+
