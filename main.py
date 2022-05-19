@@ -51,13 +51,16 @@ def get_card_count(board_id: int, status_id: int):
     return queries.count_cards(board_id, status_id)
 
 
-@app.route("/api/cards/<int:card_id>", methods=["GET", "POST", "PUT"])
+@app.route("/api/cards/<int:card_id>", methods=["GET", "POST", "PUT", "DELETE"])
 @json_response
 def update_card_data(card_id):
-    data = request.get_json()
-    status_id = data["status_id"]
-    card_order = int(data["card_order"]) + 1
-    return queries.update_card_status(card_id, status_id, card_order)
+    if request.method == 'GET':
+        data = request.get_json()
+        status_id = data["status_id"]
+        card_order = int(data["card_order"]) + 1
+        return queries.update_card_status(card_id, status_id, card_order)
+    elif request.method == 'DELETE':
+        return queries.delete_card(card_id)
 
 
 def main():
