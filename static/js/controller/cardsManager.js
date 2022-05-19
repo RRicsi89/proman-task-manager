@@ -35,7 +35,7 @@ export let cardsManager = {
     },
 };
 
-async function deleteButtonHandler(clickEvent) {
+export async function deleteButtonHandler(clickEvent) {
     const card = this;
     const cardId = card.dataset.cardId;
     const boardId = card.dataset.boardId;
@@ -43,4 +43,5 @@ async function deleteButtonHandler(clickEvent) {
 
     const cards = document.querySelectorAll(`.card-board-${boardId}`);
     cards.forEach((card) => card.remove());
-    await this.loadCards(boardId);
+    await cardsManager.loadCards(boardId);
+}

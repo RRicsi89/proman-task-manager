@@ -60,7 +60,6 @@ def get_card_count(board_id: int, status_id: int):
 @json_response
 def update_card_data(card_id):
     if request.method == "PUT":
-        development
         data = request.get_json()
         status_id = data["status_id"]
         card_order = int(data["card_order"]) + 1
