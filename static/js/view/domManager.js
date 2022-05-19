@@ -115,8 +115,6 @@ export let domManager = {
                         console.error("could not find such html element");
                     }
                     e.preventDefault();
-
-                    // await dataHandler.addNewColumn(boardId);
                     let boardHeader = document.querySelector(`#bc-${boardId}>.board-header`);
                     let newColumnButton = document.querySelector(`#bc-${boardId}>.board-header>.new-column-button`);
                     boardHeader.removeChild(newColumnButton);
@@ -125,6 +123,7 @@ export let domManager = {
                     newColumnButton1.classList.add('new-column-button');
                     boardHeader.insertBefore(newColumnButton1, boardHeader.children[2]);
                     domManager.addNewColumn();
+                    dataHandler.addNewColumn(boardId, 5, newColumnName)
                 });
                 button.innerHTML = "";
                 button.appendChild(input);
@@ -137,17 +136,4 @@ export let domManager = {
         domManager.toggleButton(boardId, style);
         domManager.addNewColumn();
     },
-
-
-    // renameColumns(){
-    //     const board = document.querySelectorAll('#board-2');
-    //     // console.log(board);
-    //     let columnTitles = document.querySelectorAll('.board-column-title');
-    //     columnTitles.forEach(title => {
-    //         title.addEventListener('dblclick', function (e){
-    //             const boardId = e.target.dataset.id;
-    //             console.log(e.currentTarget.textContent);
-    //         })
-    //     })
-    // }
 };
