@@ -16,7 +16,7 @@ SET default_with_oids = false;
 ---
 --- drop tables
 ---
-
+DROP TABLE IF EXISTS board_columns CASCADE;
 DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards;
@@ -77,3 +77,17 @@ ALTER TABLE ONLY cards
 
 ALTER TABLE ONLY cards
     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+CREATE TABLE board_columns
+(
+    board_id int,
+    status_id int
+);
+ALTER TABLE ONLY board_columns
+    ADD CONSTRAINT fk_cards_board_id FOREIGN KEY (board_id) REFERENCES boards(id);
+
+-- ALTER TABLE ONLY board_columns
+--     ADD CONSTRAINT fk_cards_status_id FOREIGN KEY (status_id) REFERENCES statuses(id);
+
+INSERT INTO board_columns (board_id, status_id) VALUES (1, 1), (1, 2), (1, 3), (1, 4);
+INSERT INTO board_columns (board_id, status_id) VALUES (2, 1), (2, 2), (2, 3), (2, 4);

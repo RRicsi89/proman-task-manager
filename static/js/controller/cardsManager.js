@@ -27,15 +27,25 @@ export let cardsManager = {
             }
             domManager.addChild(parentIdentifier, content);
             domManager.addEventListener(
-                `.card-id-${card.id}`,
+                `.card-remove[data-card-id="${card.id}"]`,
                 "click",
-                deleteButtonHandler
+                () => {
+                    deleteButtonHandler(card);
+                }
             );
             initDragAndDrop(card);
         }
-        renameCard();
+        // domManager.renameColumns();
     },
 };
 
-export function deleteButtonHandler(clickEvent) {
+export async function deleteButtonHandler(card) {
+    // const card = this;
+    const cardId = card.id;
+    const boardId = card["board_id"];
+    await dataHandler.deleteCard(cardId);
+
+    const cards = document.querySelectorAll(`.card-board-${boardId}`);
+    cards.forEach((card) => card.remove());
+    await cardsManager.loadCards(boardId);
 }

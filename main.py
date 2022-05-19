@@ -56,7 +56,7 @@ def get_card_count(board_id: int, status_id: int):
     return queries.count_cards(board_id, status_id)
 
 
-@app.route("/api/cards/<int:card_id>", methods=["GET", "POST", "PUT"])
+@app.route("/api/cards/<int:card_id>", methods=["GET", "POST", "PUT", "DELETE"])
 @json_response
 def update_card_data(card_id):
     if request.method == "PUT":
@@ -64,12 +64,22 @@ def update_card_data(card_id):
         status_id = data["status_id"]
         card_order = int(data["card_order"]) + 1
         return queries.update_card_status(card_id, status_id, card_order)
+    elif request.method == 'DELETE':
+        return queries.delete_card(card_id)
 
 
 @app.route("/api/board/<int:board_id>")
 @json_response
 def get_new_card_data(board_id: int):
     return queries.get_new_card(board_id)
+
+
+@app.route("/api/boards/<int:board_id>/<int:status_id>/new_column", methods=['GET', 'POST', 'PUT'])
+@json_response
+def add_new_column(board_id: int, status_id: int):
+    if request.method == 'PUT':
+        column_name = request.get_json()
+        return queries.add_new_column(board_id, status_id)
 
 
 @app.route("/api/card/<int:card_id>", methods=["GET", "POST", "PUT"])

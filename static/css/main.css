@@ -6,21 +6,28 @@
     --status-4: #085900;
 }
 
-body{
+
+body {
     min-width: 620px;
-    background: #ddd url(http://cdn.backgroundhost.com/backgrounds/subtlepatterns/diagonal-noise.png);
-    font-family: sans-serif;
+    background: #ddd url("../img/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow-x: hidden;
 }
 
-h1, .board-title, .board-column-title{
+h1, .board-title, .board-column-title {
     font-weight: 100;
 }
 
-h1{
+h1 {
+    font-family: 'Koulen', cursive;
     text-align: center;
-    font-size: 4em;
+    font-size: 5em;
     letter-spacing: 5px;
     transform: scale(1.2, 1);
+    color: #fff;
+    text-shadow: 2px 2px #099410;
 }
 
 button{
@@ -29,7 +36,7 @@ button{
     border: none;
     font-size: 14px;
     font-family: sans-serif;
-    padding: 4px 10px;
+    padding: 5px 10px;
 }
 
 .board-container {
@@ -89,6 +96,9 @@ section.board{
 
 .board-column-title{
     text-align: center;
+    color: #09490d;
+    font-weight: 600;
+    background-color: rgba(205, 205, 205, 0.48);
 }
 
 .card{

@@ -3,7 +3,6 @@ import {htmlFactory, htmlTemplates} from "./htmlFactory.js";
 import {cardsManager, deleteButtonHandler} from "../controller/cardsManager.js";
 import {initDragAndDrop} from "./dragDrop.js";
 
-
 export let domManager = {
     addChild(parentIdentifier, childContent) {
         const parent = document.querySelector(parentIdentifier);
@@ -112,6 +111,20 @@ export let domManager = {
             button.addEventListener('click', function (e){
                 const parent = e.currentTarget.parentNode.parentNode.children[1];
                 let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
+                console.log(boardId);
+                let input = document.createElement('input');
+                let saveButton = document.createElement('button');
+                saveButton.textContent = "Save";
+                input.type = 'text';
+
+                saveButton.addEventListener('click',  function (e) {
+                    let newColumnName = input.value;
+                    const content = `
+                        <div class="board-column">
+                            <div class="board-column-title">${newColumnName}</div>
+                            <div class="bcc-${boardId} board-column-content input-card-${boardId}"></div>
+                        </div>`;
+
                     if (parent) {
                         parent.insertAdjacentHTML("beforeend", content);
                     } else {
@@ -133,16 +146,14 @@ export let domManager = {
                 button.appendChild(input);
                 button.appendChild(saveButton);
                 input.focus();
-            }
-        },
+            })
+        }
+    },
     dynamicColumns(boardId, style){
-    domManager.toggleButton(boardId, style);
-    domManager.addNewColumn();
-    }
-    }
-
-
-
+        domManager.toggleButton(boardId, style);
+        domManager.addNewColumn();
+    },
+};
 
 export async function renameCard() {
     let cards = document.querySelectorAll('.card');

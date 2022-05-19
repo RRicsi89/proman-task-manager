@@ -40,7 +40,7 @@ function cardBuilder(card) {
                     data-board-id="${card['board_id']}" 
                     data-status="${card['status_id']}"
                     data-order="${card['card_order']}">${card.title}
-            <div class="card-remove"><i class="fas fa-trash-alt"></i></div>
+            <div class="card-remove" data-card-id="${card.id}"><i class="fas fa-trash-alt"></i></div>
         </div>
     `;
 }
