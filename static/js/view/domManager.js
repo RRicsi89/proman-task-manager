@@ -123,7 +123,8 @@ export let domManager = {
                     newColumnButton1.classList.add('new-column-button');
                     boardHeader.insertBefore(newColumnButton1, boardHeader.children[2]);
                     domManager.addNewColumn();
-                    dataHandler.addNewColumn(boardId, 5, newColumnName)
+                    let columnNumber = boardHeader.nextElementSibling.children.length;
+                    dataHandler.addNewColumn(boardId, columnNumber, newColumnName)
                 });
                 button.innerHTML = "";
                 button.appendChild(input);
