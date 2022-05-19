@@ -35,5 +35,5 @@ export let cardsManager = {
     },
 };
 
-function deleteButtonHandler(clickEvent) {
+export function deleteButtonHandler(clickEvent) {
 }
