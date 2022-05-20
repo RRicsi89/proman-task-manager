@@ -50,6 +50,10 @@ async function getBoardName() {
             newBoardTitle.appendChild(saveButton);
             newBoardTitle.focus();
         })
+        const addBtn = document.querySelector(`.board-add[data-board-id="${lastBoard.id}"]`);
+        addBtn.addEventListener("click", () => {
+            domManager.addNewCard(lastBoard.id);
+        })
     });
 
     return boardTitle
