@@ -48,3 +48,6 @@ export function showHideButtonHandler(clickEvent) {
         boardBody.style.display = "none";
     }
 }
+// async function getColumnsByBoard(board_id) {
+//     const response
+// }
