@@ -50,6 +50,9 @@ export let dataHandler = {
     renameCard: async function (cardId, cardData) {
         return await apiPut(`/api/card/${cardId}`, cardData)
     },
+    registerUser: async function (userData) {
+        return await apiPut(`/api/register`, userData)
+    },
 };
 
 
