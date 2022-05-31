@@ -22,7 +22,7 @@ export let boardsManager = {
                 `.board-add[data-board-id="${board.id}"]`,
                 "click",
                 () => {
-                    domManager.addNewCard(board.id);
+                    domManager.addNewCard(board.id, statuses);
                 }
             );
             domManager.renameColumns(board.id);

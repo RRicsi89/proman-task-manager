@@ -16,22 +16,7 @@ export let cardsManager = {
                     parentIdentifier = `.board-column-content[data-id="${status["status_id"]}-${boardId}"]`;
                     domManager.addChild(parentIdentifier, content);
                 }
-                // domManager.addChild(parentIdentifier, content);
             }
-            // switch (card["status_id"]) {
-            //     case 1:
-            //         parentIdentifier = `.new-card-${boardId}`;
-            //         break
-            //     case 2:
-            //         parentIdentifier = `.in-progress-${boardId}`;
-            //         break
-            //     case 3:
-            //         parentIdentifier = `.testing-${boardId}`;
-            //         break
-            //     case 4:
-            //         parentIdentifier = `.done-card-${boardId}`;
-            //         break
-            // }
             domManager.addEventListener(
                 `.card-remove[data-card-id="${card.id}"]`,
                 "click",
@@ -39,7 +24,7 @@ export let cardsManager = {
                     deleteButtonHandler(card, statuses);
                 }
             );
-            // initDragAndDrop(card);
+            initDragAndDrop(card);
         }
         renameCard();
     },

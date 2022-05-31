@@ -28,7 +28,7 @@ export let domManager = {
         for (let status of statuses) {
             const column = document.createElement("div");
             column.classList.add("board-column", `dropzone-${boardId}`);
-            column.dataset.boardID = boardId;
+            column.dataset.boardId = boardId;
             column.dataset.status = status["status_id"];
 
             const  columnTitle = document.createElement("div");
@@ -42,19 +42,7 @@ export let domManager = {
 
             column.append(columnTitle, columnContent);
             content.appendChild(column);
-            // column.innerHTML = `
-            //             <div class="board-column-title-${boardId}">{{ status["title"] }}</div>
-            //             <div class="bcc-${boardId} board-column-content ${status["title"]}-${boardId}"></div>`;
         }
-        // content.innerHTML = `
-        //         {% for column in ${statuses} %}
-        //         for
-        //             <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="${column["status_id"]}">
-        //                 <div class="board-column-title-${boardId}">{{ column["title"] }}</div>
-        //                 <div class="bcc-${boardId} board-column-content ${column["title"]}-${boardId}"></div>
-        //             </div>
-        //         {% endfor %}
-        // `
         if (parent) {
             parent.appendChild(content);
         } else {
@@ -118,7 +106,7 @@ export let domManager = {
         const card = cards[0];
         const cardBuilder = await htmlFactory(htmlTemplates.card);
         const content = cardBuilder(card);
-        this.addChild(`.new-card-${boardId}`, content);
+        this.addChild(`.board-column-content[data-id="1-${boardId}"]`, content);
         this.addEventListener(`.card-remove[data-card-id="${card.id}"]`, 'click', () => {
             deleteButtonHandler(card);
         });
@@ -147,10 +135,7 @@ export let domManager = {
         const buttons = document.getElementsByClassName('new-column-button');
         for (let button of buttons){
             button.addEventListener('click', function (e){
-                // const parent = e.currentTarget.parentNode.parentNode.children[1];
                 const boardId = button.dataset.boardId;
-                // const parent = document.querySelector(`.board-column-${boardId}`);
-                // let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
                 let input = document.createElement('input');
                 let saveButton = document.createElement('button');
                 saveButton.textContent = "Save";
