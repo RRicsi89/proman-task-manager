@@ -161,6 +161,14 @@ def rename_card(card_id, title):
     )
 
 
+def get_column_names_by_board(board_id):
+    data_manager.execute_select("""
+        SELECT board_columns.status_id, s.title FROM board_columns
+        JOIN statuses s on board_columns.status_id = s.id
+        WHERE board_columns.board_id = 1;
+    """)
+
+
 def save_new_user(username, password):
     data_manager.execute_update(
         """
