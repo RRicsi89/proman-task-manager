@@ -159,3 +159,11 @@ def rename_card(card_id, title):
         WHERE id = %(card_id)s;
         """, {"card_id": card_id, "title": title}
     )
+
+
+def save_new_user(username, password):
+    data_manager.execute_update(
+        """
+        INSERT INTO users (username, password)
+        VALUES (%(username)s, %(password)s);
+        """, {"username": username, "password": password})
