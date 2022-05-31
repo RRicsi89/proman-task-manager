@@ -162,8 +162,15 @@ def rename_card(card_id, title):
 
 
 def get_column_names_by_board(board_id):
-    data_manager.execute_select("""
+    return data_manager.execute_select("""
         SELECT board_columns.status_id, s.title FROM board_columns
         JOIN statuses s on board_columns.status_id = s.id
-        WHERE board_columns.board_id = 1;
-    """)
+        WHERE board_columns.board_id = %(board_id)s;
+    """, {"board_id": board_id})
+
+
+def save_new_column_name(status_id, column_name):
+    data_manager.execute_update("""
+        INSERT INTO statuses (id, title)
+        VALUES (%(status_id)s, %(column_name)s)
+    """, {"status_id": status_id, "column_name": column_name})
