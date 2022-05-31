@@ -174,3 +174,11 @@ def save_new_column_name(status_id, column_name):
         INSERT INTO statuses (id, title)
         VALUES (%(status_id)s, %(column_name)s)
     """, {"status_id": status_id, "column_name": column_name})
+
+
+def rename_column(status_id, title):
+    data_manager.execute_update("""
+        UPDATE statuses
+        SET title = %(title)s
+        WHERE id = %(status_id)s
+    """, {"status_id": status_id, "title": title})

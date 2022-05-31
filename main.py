@@ -101,8 +101,14 @@ def rename_card(card_id):
 @app.route('/api/statuses/<int:board_id>')
 @json_response
 def get_statuses_by_board_id(board_id: int):
-    print(queries.get_column_names_by_board(board_id))
     return queries.get_column_names_by_board(board_id)
+
+
+@app.route('/api/rename/<int:status_id>', methods=["GET", "PUT"])
+@json_response
+def rename_column(status_id):
+    title = request.get_json()
+    return queries.rename_column(status_id, title)
 
 
 def main():

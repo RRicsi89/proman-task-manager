@@ -33,6 +33,7 @@ export let domManager = {
 
             const  columnTitle = document.createElement("div");
             columnTitle.classList.add(`board-column-title-${boardId}`);
+            columnTitle.dataset.status = status["status_id"];
             columnTitle.textContent = `${status["title"]}`;
 
             const columnContent = document.createElement("div");
@@ -79,6 +80,7 @@ export let domManager = {
         let columnTitles = document.querySelectorAll(`.board-column-title-${boardId}`);
         columnTitles.forEach(title => {
             title.addEventListener('dblclick', function (e){
+                const status = title.dataset.status;
                 let statusTitle = e.currentTarget.textContent;
                 let input = document.createElement('input');
                 input.value = statusTitle;
@@ -87,9 +89,10 @@ export let domManager = {
                     if (e.key === 'Enter') {
                         let statusTitle = input.value;
                         title.innerHTML = statusTitle;
-                        dataHandler.updateColumnTitle(boardId, statusTitle)
-                            .then(result => (result[0].id))
-                            .then(statusId => console.log(statusId))
+                        // dataHandler.updateColumnTitle(boardId, status, statusTitle)
+                        //     .then(result => (result[0].id))
+                        //     .then(statusId => console.log(statusId))
+                        dataHandler.renameColumn(status, statusTitle);
                     }
                 });
                 title.innerHTML = "";
@@ -148,11 +151,12 @@ export let domManager = {
                     let newColumnName = input.value;
                     const column = document.createElement("div");
                     column.classList.add("board-column", `dropzone-${boardId}`);
-                    column.dataset.boardID = boardId;
-                    column.dataset.status = "5";
+                    column.dataset.boardId = boardId;
+                    column.dataset.status = columnNumber;
 
                     const  columnTitle = document.createElement("div");
                     columnTitle.classList.add(`board-column-title-${boardId}`);
+                    columnTitle.dataset.status = columnNumber;
                     columnTitle.textContent = newColumnName;
 
                     const columnContent = document.createElement("div");
