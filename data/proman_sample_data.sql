@@ -95,3 +95,12 @@ INSERT INTO board_columns (board_id, status_id) VALUES (2, 1), (2, 2), (2, 3), (
 
 create unique index statuses_title_uindex
     on statuses (title);
+
+create table users
+(
+    id       integer not null
+        constraint users_pk
+            primary key,
+    username varchar not null,
+    password varchar not null
+);

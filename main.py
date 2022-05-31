@@ -1,12 +1,16 @@
 from flask import Flask, render_template, url_for, request
 from dotenv import load_dotenv
+
+import authentication
 from util import json_response
 import mimetypes
 import queries
+import secret_key
 
 mimetypes.add_type('application/javascript', '.js')
 app = Flask(__name__)
 load_dotenv("./.env")
+app.secret_key = secret_key.key
 
 
 @app.route("/")
@@ -95,6 +99,17 @@ def rename_board_column(board_id: int):
 def rename_card(card_id):
     title = request.get_json()
     return queries.rename_card(card_id, title)
+
+
+@app.route("/api/register", methods=["GET", "POST", "PUT"])
+@json_response
+def register():
+    if request.method == 'PUT':
+        user_data = request.get_json()
+        username = user_data[0]
+        password = user_data[1]
+        hashed_password = authentication.hash_password(password)  # convert password to hashed password
+        return queries.save_new_user(username, hashed_password)
 
 
 def main():

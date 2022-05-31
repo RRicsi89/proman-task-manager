@@ -167,3 +167,11 @@ def get_column_names_by_board(board_id):
         JOIN statuses s on board_columns.status_id = s.id
         WHERE board_columns.board_id = 1;
     """)
+
+
+def save_new_user(username, password):
+    data_manager.execute_update(
+        """
+        INSERT INTO users (username, password)
+        VALUES (%(username)s, %(password)s);
+        """, {"username": username, "password": password})
