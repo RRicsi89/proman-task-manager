@@ -10,8 +10,9 @@ export let boardsManager = {
             const boardBuilder = htmlFactory(htmlTemplates.board);
             const content = boardBuilder(board);
             await domManager.addChild("#root", content);
-            domManager.addBoardColumns(board.id);
-            await cardsManager.loadCards(board.id);
+            const statuses = await getColumnsByBoard(board.id);
+            domManager.addBoardColumns(board.id, statuses);
+            await cardsManager.loadCards(board.id, statuses);
             domManager.addEventListener(
                 `.toggle-board-button[data-board-id="${board.id}"]`,
                 "click",
@@ -21,7 +22,7 @@ export let boardsManager = {
                 `.board-add[data-board-id="${board.id}"]`,
                 "click",
                 () => {
-                    domManager.addNewCard(board.id);
+                    domManager.addNewCard(board.id, statuses);
                 }
             );
             domManager.renameColumns(board.id);
@@ -48,6 +49,7 @@ export function showHideButtonHandler(clickEvent) {
         boardBody.style.display = "none";
     }
 }
-// async function getColumnsByBoard(board_id) {
-//     const response
-// }
+async function getColumnsByBoard(board_id) {
+    const response = await dataHandler.getStatusesByBoard(board_id);
+    return response;
+}
