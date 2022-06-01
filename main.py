@@ -142,6 +142,11 @@ def login(username, password):
     return f"Invalid password or username."
 
 
+@app.route("/api/logout", methods=["GET"])
+@json_response
+def logout():
+    session.pop('username', None)
+
 
 def main():
     app.run(
