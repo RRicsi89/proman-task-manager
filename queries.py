@@ -175,3 +175,13 @@ def save_new_user(username, password):
         INSERT INTO users (username, password)
         VALUES (%(username)s, %(password)s);
         """, {"username": username, "password": password})
+
+
+def get_user_password_by_username(username):
+    hashed_password = data_manager.execute_select(
+        """
+        SELECT password
+        FROM users
+        WHERE username LIKE %(username)s;
+        """, {"username": username})
+    return hashed_password
