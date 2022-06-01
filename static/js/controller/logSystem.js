@@ -47,7 +47,7 @@ async function register(){
     registerBtn.addEventListener('click', registerUserData);
 }
 
-function loginUserData(){
+async function loginUserData(){
     createLogModal('Login');
     const saveBtn = document.querySelector('#save-new-user');
     saveBtn.addEventListener('click', async () => {
@@ -73,9 +73,18 @@ function createLoggedInDiv(username){
 
 
 async function login() {
-    const registerBtn = document.querySelector('#login-btn');
-    registerBtn.addEventListener('click', loginUserData);
+    const loginBtn = document.querySelector('#login-btn');
+    loginBtn.addEventListener('click', loginUserData);
+}
+
+async function logout(){
+    const logoutBtn = document.querySelector('#logout-btn');
+    logoutBtn.addEventListener('click', async () => {
+        await dataHandler.logoutUser();
+        location.reload();
+    })
 }
 
 register();
 login();
+logout();
