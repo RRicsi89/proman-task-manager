@@ -20,31 +20,32 @@ export let domManager = {
             console.error("could not find such html element: " + parentIdentifier);
         }
     },
-    addBoardColumns(boardId) {
+    addBoardColumns(boardId, statuses) {
         const parent = document.querySelector(`#bc-${boardId}`);
-        const content = `
-            <div class="board-columns-${boardId}" style="display: none">
-         
-                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="1">
-                    <div class="board-column-title-${boardId}">New</div>
-                    <div class="bcc-${boardId} board-column-content new-card-${boardId}"></div>
-                </div>
-                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="2">
-                    <div class="board-column-title-${boardId}">In Progress</div>
-                    <div class="bcc-${boardId} board-column-content in-progress-${boardId}"></div>
-                </div>
-                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="3">
-                    <div class="board-column-title-${boardId}">Testing</div>
-                    <div class="bcc-${boardId} board-column-content testing-${boardId}"></div>
-                </div>
-                <div class="board-column dropzone-${boardId}" data-board-id="${boardId}" data-status="4">
-                    <div class="board-column-title-${boardId}">Done</div>
-                    <div class="bcc-${boardId} board-column-content done-card-${boardId}"></div>
-                </div>
-            </div>
-        `
+        const content = document.createElement("div");
+        content.classList.add(`board-columns-${boardId}`);
+        content.style.display = "none";
+        for (let status of statuses) {
+            const column = document.createElement("div");
+            column.classList.add("board-column", `dropzone-${boardId}`);
+            column.dataset.boardId = boardId;
+            column.dataset.status = status["status_id"];
+
+            const  columnTitle = document.createElement("div");
+            columnTitle.classList.add(`board-column-title-${boardId}`);
+            columnTitle.dataset.status = status["status_id"];
+            columnTitle.textContent = `${status["title"]}`;
+
+            const columnContent = document.createElement("div");
+            columnContent.classList.add(`bcc-${boardId}`, `board-column-content`, `${status["status_id"]}-${boardId}`);
+            columnContent.setAttribute("id", `${status["status_id"]}-${boardId}`);
+            columnContent.dataset.id = `${status["status_id"]}-${boardId}`;
+
+            column.append(columnTitle, columnContent);
+            content.appendChild(column);
+        }
         if (parent) {
-            parent.insertAdjacentHTML("beforeend", content);
+            parent.appendChild(content);
         } else {
             console.error("could not find such html element: " + `#bc-${boardId}`);
         }
@@ -79,6 +80,7 @@ export let domManager = {
         let columnTitles = document.querySelectorAll(`.board-column-title-${boardId}`);
         columnTitles.forEach(title => {
             title.addEventListener('dblclick', function (e){
+                const status = title.dataset.status;
                 let statusTitle = e.currentTarget.textContent;
                 let input = document.createElement('input');
                 input.value = statusTitle;
@@ -87,9 +89,10 @@ export let domManager = {
                     if (e.key === 'Enter') {
                         let statusTitle = input.value;
                         title.innerHTML = statusTitle;
-                        dataHandler.updateColumnTitle(boardId, statusTitle)
-                            .then(result => (result[0].id))
-                            .then(statusId => console.log(statusId))
+                        // dataHandler.updateColumnTitle(boardId, status, statusTitle)
+                        //     .then(result => (result[0].id))
+                        //     .then(statusId => console.log(statusId))
+                        dataHandler.renameColumn(status, statusTitle);
                     }
                 });
                 title.innerHTML = "";
@@ -106,7 +109,7 @@ export let domManager = {
         const card = cards[0];
         const cardBuilder = await htmlFactory(htmlTemplates.card);
         const content = cardBuilder(card);
-        this.addChild(`.new-card-${boardId}`, content);
+        this.addChild(`.board-column-content[data-id="1-${boardId}"]`, content);
         this.addEventListener(`.card-remove[data-card-id="${card.id}"]`, 'click', () => {
             deleteButtonHandler(card);
         });
@@ -121,6 +124,7 @@ export let domManager = {
             let newColumnButton = document.createElement('button');
             newColumnButton.textContent = 'Add new column';
             newColumnButton.classList.add('new-column-button');
+            newColumnButton.dataset.boardId = boardId;
             let currentHeader = button.parentNode;
             if (style === 'none'){
                 currentHeader.insertBefore(newColumnButton, button);
@@ -134,28 +138,42 @@ export let domManager = {
         const buttons = document.getElementsByClassName('new-column-button');
         for (let button of buttons){
             button.addEventListener('click', function (e){
-                const parent = e.currentTarget.parentNode.parentNode.children[1];
-                let boardId = e.currentTarget.parentNode.children[0].getAttribute('data-id');
+                const boardId = button.dataset.boardId;
                 let input = document.createElement('input');
                 let saveButton = document.createElement('button');
                 saveButton.textContent = "Save";
                 input.type = 'text';
 
                 saveButton.addEventListener('click',  function (e) {
+                    let boardHeader = document.querySelector(`#bc-${boardId}>.board-header`);
+                    const content = document.querySelector(`.board-columns-${boardId}`);
+                    let columnNumber = boardHeader.nextElementSibling.children.length + 1;
                     let newColumnName = input.value;
-                    const content = `
-                        <div class="board-column">
-                            <div class="board-column-title">${newColumnName}</div>
-                            <div class="bcc-${boardId} board-column-content input-card-${boardId}"></div>
-                        </div>`;
+                    const column = document.createElement("div");
+                    column.classList.add("board-column", `dropzone-${boardId}`);
+                    column.dataset.boardId = boardId;
+                    column.dataset.status = columnNumber;
 
-                    if (parent) {
-                        parent.insertAdjacentHTML("beforeend", content);
+                    const  columnTitle = document.createElement("div");
+                    columnTitle.classList.add(`board-column-title-${boardId}`);
+                    columnTitle.dataset.status = columnNumber;
+                    columnTitle.textContent = newColumnName;
+
+                    const columnContent = document.createElement("div");
+                    columnContent.classList.add(`bcc-${boardId}`, `board-column-content`, `${columnNumber}-${boardId}`);
+                    columnContent.setAttribute("id", `${columnNumber}-${boardId}`);
+                    columnContent.dataset.id = `${columnNumber}-${boardId}`;
+
+                    column.append(columnTitle, columnContent);
+                    // content.appendChild(column);
+
+                    if (content) {
+                        content.appendChild(column);
                     } else {
                         console.error("could not find such html element");
                     }
                     e.preventDefault();
-                    let boardHeader = document.querySelector(`#bc-${boardId}>.board-header`);
+
                     let newColumnButton = document.querySelector(`#bc-${boardId}>.board-header>.new-column-button`);
                     boardHeader.removeChild(newColumnButton);
                     let newColumnButton1 = document.createElement('button');
@@ -163,7 +181,7 @@ export let domManager = {
                     newColumnButton1.classList.add('new-column-button');
                     boardHeader.insertBefore(newColumnButton1, boardHeader.children[2]);
                     domManager.addNewColumn();
-                    let columnNumber = boardHeader.nextElementSibling.children.length;
+
                     dataHandler.addNewColumn(boardId, columnNumber, newColumnName)
                 });
                 button.innerHTML = "";

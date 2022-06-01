@@ -85,6 +85,7 @@ def get_new_card_data(board_id: int):
 def add_new_column(board_id: int, status_id: int):
     if request.method == 'PUT':
         column_name = request.get_json()
+        queries.save_new_column_name(status_id, column_name)
         return queries.add_new_column(board_id, status_id)
 
 
@@ -114,6 +115,19 @@ def register():
         return queries.save_new_user(username, hashed_password)
 
 
+@app.route('/api/statuses/<int:board_id>')
+@json_response
+def get_statuses_by_board_id(board_id: int):
+    return queries.get_column_names_by_board(board_id)
+
+
+@app.route('/api/rename/<int:status_id>', methods=["GET", "PUT"])
+@json_response
+def rename_column(status_id):
+    title = request.get_json()
+    return queries.rename_column(status_id, title)
+
+
 @app.route("/api/login/<username>/<password>", methods=["GET"])
 @json_response
 def login(username, password):
@@ -131,7 +145,7 @@ def login(username, password):
 
 def main():
     app.run(
-    port=5000,
+    port=8000,
     debug=True)
 
     # Serving the favicon
