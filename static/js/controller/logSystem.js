@@ -3,8 +3,8 @@ import {dataHandler} from "../data/dataHandler.js";
 function createLogModal(title) {
     const modalContainer = document.createElement("div");
     modalContainer.innerHTML = `
-        <div class="modal" tabindex="-1" id="new-board-modal">
-          <div class="modal-dialog">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">${title}</h5>
@@ -18,7 +18,7 @@ function createLogModal(title) {
                     <input type="password" id="password" name="password" required>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save-new-user" data-bs-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-success" id="save-new-user" data-bs-dismiss="modal">Save</button>
               </div>
             </div>
           </div>
@@ -39,13 +39,13 @@ function registerUserData(){
         const password = document.querySelector('#password').value;
         const userData = [username, password]
         dataHandler.registerUser(userData);
+        location.reload();
     });
 }
 
 async function register(){
     const registerBtn = document.querySelector('#register-btn');
-    registerBtn.addEventListener('click', registerUserData);
-}
+    registerBtn.addEventListener('click', registerUserData);}
 
 async function loginUserData(){
     createLogModal('Login');

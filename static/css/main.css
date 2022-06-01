@@ -9,10 +9,8 @@
 
 body {
     min-width: 620px;
-    background: #ddd url("../img/background.jpg");
     background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    background: #ddd url("../img/background.jpg") no-repeat center;
     overflow-x: hidden;
 }
 
@@ -33,10 +31,11 @@ h1 {
 button{
     background: #222;
     color: #fff;
-    border: none;
-    font-size: 14px;
-    font-family: sans-serif;
-    padding: 5px 10px;
+    border: 1px solid white;
+    border-radius: 6px;
+    padding: 1%;
+    font-size: 15px;
+    font-family: 'Koulen', cursive;
 }
 
 .board-container {
@@ -52,12 +51,13 @@ section.board{
 }
 
 .board-header{
-    height: 50px;
+    height: 60px;
     background: #fff;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .board-title{
+    font-family: 'Koulen', cursive;
     margin: 13px;
     display: inline-block;
     font-size: 20px;
@@ -153,11 +153,17 @@ section.board{
 }
 
 .logged {
-    border: 1px solid white;
+    border: 2px solid white;
     border-radius: 6px;
     width: 10%;
     padding: 1%;
     text-align: center;
     color: white;
     background-color: #063307;
+}
+
+.modal-header, .modal-footer {
+    color: white;
+    background: #ddd url("../img/background.jpg");
+    background-size: cover;
 }

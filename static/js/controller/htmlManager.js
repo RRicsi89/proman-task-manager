@@ -63,8 +63,8 @@ async function getBoardName() {
 function createModal(title) {
     const modalContainer = document.createElement("div");
     modalContainer.innerHTML = `
-        <div class="modal" tabindex="-1" id="new-board-modal">
-          <div class="modal-dialog">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">Create new ${title}</h5>
@@ -75,7 +75,7 @@ function createModal(title) {
                     <input type="text" id="board-name" name="board-name" required>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="save-table-name" data-bs-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-success" id="save-table-name" data-bs-dismiss="modal">Save</button>
               </div>
             </div>
           </div>
