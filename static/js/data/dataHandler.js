@@ -59,6 +59,9 @@ export let dataHandler = {
     loginUser: async function (username, password) {
         return await apiGet(`/api/login/${username}/${password}`)
     },
+    logoutUser: async function () {
+    return await apiGet(`/api/logout`)
+    },
     renameColumn: async function (status_id, title) {
         return await apiPut(`/api/rename/${status_id}`, title)
     }
