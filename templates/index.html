@@ -4,6 +4,11 @@
 
 {% block root %}
     <h1>ProMan</h1>
+    <div class="logged-in-msg">
+    {% if username %}
+        <p class="logged">Logged in as {{ username }}</p>
+    {% endif %}
+    </div>
     <button id="register-btn">Register</button>
     <button id="login-btn">Login</button>
     <button id="logout-btn">Logout</button>

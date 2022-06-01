@@ -162,7 +162,7 @@ def rename_card(card_id, title):
 
 
 def get_column_names_by_board(board_id):
-    data_manager.execute_select("""
+    return data_manager.execute_select("""
         SELECT board_columns.status_id, s.title FROM board_columns
         JOIN statuses s on board_columns.status_id = s.id
         WHERE board_columns.board_id = %(board_id)s;
@@ -190,3 +190,13 @@ def save_new_user(username, password):
         INSERT INTO users (username, password)
         VALUES (%(username)s, %(password)s);
         """, {"username": username, "password": password})
+
+
+def get_user_password_by_username(username):
+    hashed_password = data_manager.execute_select(
+        """
+        SELECT password
+        FROM users
+        WHERE username LIKE %(username)s;
+        """, {"username": username})
+    return hashed_password

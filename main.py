@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, session, redirect
 from dotenv import load_dotenv
 
 import authentication
@@ -15,6 +15,8 @@ app.secret_key = secret_key.key
 
 @app.route("/")
 def index():
+    if session:
+        return render_template('index.html', username=session['username'])
     """
     This is a one-pager which shows all the boards and cards
     """
@@ -102,7 +104,7 @@ def rename_card(card_id):
     return queries.rename_card(card_id, title)
 
 
-@app.route("/api/register", methods=["GET", "POST", "PUT"])
+@app.route("/api/register", methods=["PUT"])
 @json_response
 def register():
     if request.method == 'PUT':
@@ -124,6 +126,21 @@ def get_statuses_by_board_id(board_id: int):
 def rename_column(status_id):
     title = request.get_json()
     return queries.rename_column(status_id, title)
+
+
+@app.route("/api/login/<username>/<password>", methods=["GET"])
+@json_response
+def login(username, password):
+    if queries.get_user_password_by_username(username):
+        hashed_password = queries.get_user_password_by_username(username)[0]['password']
+        is_matching = authentication.verify_password(password, hashed_password)
+        if is_matching:
+            session['username'] = username
+            return [f"Welcome {username}!", username]
+        else:
+            return f"Invalid password or username."
+    return f"Invalid password or username."
+
 
 
 def main():

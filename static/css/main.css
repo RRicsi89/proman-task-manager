@@ -151,3 +151,13 @@ section.board{
     margin: 0 auto;
     padding-left: 40px;
 }
+
+.logged {
+    border: 1px solid white;
+    border-radius: 6px;
+    width: 10%;
+    padding: 1%;
+    text-align: center;
+    color: white;
+    background-color: #063307;
+}
