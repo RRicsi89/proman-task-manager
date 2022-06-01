@@ -162,7 +162,7 @@ def rename_card(card_id, title):
 
 
 def get_column_names_by_board(board_id):
-    return data_manager.execute_select("""
+    data_manager.execute_select("""
         SELECT board_columns.status_id, s.title FROM board_columns
         JOIN statuses s on board_columns.status_id = s.id
         WHERE board_columns.board_id = %(board_id)s;
@@ -182,3 +182,11 @@ def rename_column(status_id, title):
         SET title = %(title)s
         WHERE id = %(status_id)s
     """, {"status_id": status_id, "title": title})
+
+
+def save_new_user(username, password):
+    data_manager.execute_update(
+        """
+        INSERT INTO users (username, password)
+        VALUES (%(username)s, %(password)s);
+        """, {"username": username, "password": password})

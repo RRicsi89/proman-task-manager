@@ -53,6 +53,9 @@ export let dataHandler = {
     getStatusesByBoard: async function (boardId) {
         return await apiGet(`/api/statuses/${boardId}`)
     },
+    registerUser: async function (userData) {
+        return await apiPut(`/api/register`, userData)
+    },
     renameColumn: async function (status_id, title) {
         return await apiPut(`/api/rename/${status_id}`, title)
     }
