@@ -64,6 +64,9 @@ export let dataHandler = {
     },
     renameColumn: async function (status_id, title) {
         return await apiPut(`/api/rename/${status_id}`, title)
+    },
+    addDefaultColumns: async function (board_id) {
+        return await apiGet(`/api/board/${board_id}/columns`)
     }
 };
 

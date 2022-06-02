@@ -3,6 +3,7 @@ import {dataHandler} from "../data/dataHandler.js";
 import {htmlFactory, htmlTemplates} from "../view/htmlFactory.js";
 import {cardsManager} from "./cardsManager.js";
 import {showHideButtonHandler} from "./boardsManager.js";
+import {getColumnsByBoard} from "./boardsManager.js";
 
 export let addNewBoard = function() {
     domManager.addEventListener(".button-container-center > button", "click", getBoardName);
@@ -19,11 +20,15 @@ async function getBoardName() {
         await dataHandler.createNewBoard(boardTitle);
         const boards = await dataHandler.getBoards();
         const lastBoard = boards[boards.length - 1];
+
+        await dataHandler.addDefaultColumns(lastBoard.id);
+        const statuses = await getColumnsByBoard(lastBoard.id);
         const boardBuilder = htmlFactory(htmlTemplates.board);
         const content = boardBuilder(lastBoard);
         await domManager.addChild("#root", content);
-        domManager.addBoardColumns(lastBoard.id);
-        await cardsManager.loadCards(lastBoard.id);
+
+        domManager.addBoardColumns(lastBoard.id, statuses);
+        await cardsManager.loadCards(lastBoard.id, statuses);
         domManager.addEventListener(
             `.toggle-board-button[data-board-id="${lastBoard.id}"]`,
             "click",

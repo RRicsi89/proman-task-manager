@@ -33,6 +33,12 @@ def get_boards():
         return queries.save_new_board(board_title)
 
 
+@app.route('/api/board/<int:board_id>/columns')
+@json_response
+def add_default_columns(board_id):
+    return queries.add_default_columns(board_id)
+
+
 @app.route("/api/boards/<int:board_id>/cards/")
 @json_response
 def get_cards_for_board(board_id: int):

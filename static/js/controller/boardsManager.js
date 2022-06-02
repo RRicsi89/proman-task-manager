@@ -49,7 +49,7 @@ export function showHideButtonHandler(clickEvent) {
         boardBody.style.display = "none";
     }
 }
-async function getColumnsByBoard(board_id) {
+export async function getColumnsByBoard(board_id) {
     const response = await dataHandler.getStatusesByBoard(board_id);
     return response;
 }

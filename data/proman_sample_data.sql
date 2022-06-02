@@ -20,6 +20,7 @@ DROP TABLE IF EXISTS board_columns CASCADE;
 DROP TABLE IF EXISTS statuses CASCADE;
 DROP TABLE IF EXISTS boards CASCADE;
 DROP TABLE IF EXISTS cards;
+DROP TABLE IF EXISTS users;
 
 ---
 --- create tables

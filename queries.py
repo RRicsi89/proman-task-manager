@@ -59,6 +59,13 @@ def save_new_board(board_title):
     """, {"board_title": board_title})
 
 
+def add_default_columns(board_id):
+    data_manager.execute_update("""
+        INSERT INTO board_columns (board_id, status_id)
+        VALUES (%(board_id)s, 1), (%(board_id)s, 2), (%(board_id)s, 3), (%(board_id)s, 4)
+    """, {"board_id": board_id})
+
+
 def rename_board(board_id, board_title):
     title = data_manager.execute_update(
         """
