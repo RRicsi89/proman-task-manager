@@ -162,8 +162,11 @@ section.board{
     background-color: #063307;
 }
 
+
 .modal-header, .modal-footer {
     color: white;
     background: #ddd url("../img/background.jpg");
     background-size: cover;
+    border: 3px solid white;
+    opacity: .8;
 }
